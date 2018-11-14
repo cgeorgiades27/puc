@@ -15,4 +15,8 @@ class Entry(models.Model):
         self.save()
 
     def __str__(self):
-        return str(self.user) + "'s log for: " + str(self.date_completed.date()) + ' @ ' + str(self.date_completed.time())  
+        return str(self.user) + "'s log for: " + str(self.date_completed.date()) + ' @ ' + str(self.date_completed.time()) + ' TOTAL: ' + str(self.sets * self.reps)  
+
+    def tot(self):
+        product = self.reps * self.sets
+        return product
