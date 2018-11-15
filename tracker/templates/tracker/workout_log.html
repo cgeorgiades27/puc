@@ -1,35 +1,19 @@
-{% load static %}
-<html>
-  <head>
-    <title>Tracker</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'tracker/style.css' %}">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-  </head>
-  <body>
-    <div class = "page-header"><h1>Tracker</h1></div>
-<div class = "entry">
-    <div class = "table">
-      <table>
+{% extends 'tracker/base.html' %}
+{% block content %}
+<table>
 	<tr>
-	  <th>USER</th>
-	  <th>DATE</th>
-	  <th>SETS</th>
-	  <th>REPS</th>
-	  <th>TOTAL</th>
+		<th>User</th>
+		<th>Date</th>
+		<th>Sets</th>
+		<th>Reps</th>
 	</tr>
 	{% for x in logs %}
 	<tr>
-	  <td>{{ x.user }}</td>
-	  <td>{{ x.completed_date }}</td>
-	  <td>{{ x.set }}</td>
-	  <td>{{ x.reps }}</td>
-	  <td>{{ x.date_entered }}</td>
+		<td>{{ x.user }}</td>
+		<td>{{ x.date_completed }}</td>
+		<td>{{ x.sets }}</td>
+		<td>{{ x.reps }}</td>
 	</tr>
 	{% endfor %}
-      </table>
-    </div>
-    </div>
-  </body>
-<html>
+</table>
+{% endblock %}
