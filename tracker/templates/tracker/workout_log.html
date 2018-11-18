@@ -1,19 +1,34 @@
 {% extends 'tracker/base.html' %}
 {% block content %}
 <table>
-	<tr>
-		<th>User</th>
-		<th>Date</th>
-		<th>Sets</th>
-		<th>Reps</th>
-	</tr>
-	{% for x in logs %}
-	<tr>
-		<td>{{ x.user }}</td>
-		<td>{{ x.date_completed }}</td>
-		<td>{{ x.sets }}</td>
-		<td>{{ x.reps }}</td>
-	</tr>
-	{% endfor %}
+  <tr>
+    <th>User</th>
+    <th>Total All Time</th>
+  </tr>
+  {% for x in total_reps %}
+  <tr>
+    <td>{{ x.user }}</td>
+    <td>{{ x.total }}</td>
+  </tr>
+  {% endfor %}
+</table>
+<br>
+<table>
+  <tr>
+    <th>User</th>
+    <th>Date</th>
+    <th>Sets</th>
+    <th>Reps</th>
+    <th>Total</th>
+  </tr>
+  {% for x in logs %}
+  <tr>
+    <td>{{ x.user }}</td>
+    <td>{{ x.date_completed }}</td>
+    <td>{{ x.sets }}</td>
+    <td>{{ x.reps }}</td>
+    <td>{{ x.total }}</td>  
+  </tr>
+  {% endfor %}
 </table>
 {% endblock %}
