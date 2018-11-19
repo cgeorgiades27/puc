@@ -1,0 +1,9 @@
+{% extends 'tracker/base.html' %}
+{% block content %}
+<h2>New Log</h2>
+<form>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="save btn btn-default" style="float: left;">Save</button>
+</form>
+{% endblock %}

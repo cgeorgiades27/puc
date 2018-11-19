@@ -1,0 +1,18 @@
+{% extends 'tracker/base.html' %}
+{% block content %}
+<table>
+    <tr>
+        <th>User</th>
+        <th>Date</th>
+        <th>Sets</th>
+        <th>Reps</th>
+        <th>Total</th>
+    </tr>
+    <tr>
+        <td>{{ log.user }}</a></td>
+        <td>{{ log.date_completed }}</td>
+        <td>{{ log.sets }}</td>
+        <td>{{ log.reps }}</td>
+        <td>{{ log.total }}</td>
+    </tr>
+</table>

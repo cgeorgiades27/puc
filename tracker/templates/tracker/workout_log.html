@@ -1,5 +1,7 @@
 {% extends 'tracker/base.html' %}
 {% block content %}
+<br>
+<h3>All time ruuning total:</h3>
 <table>
   <tr>
     <th>User</th>
@@ -13,6 +15,7 @@
   {% endfor %}
 </table>
 <br>
+<h3>All time recorded:</h3>
 <table>
   <tr>
     <th>User</th>
@@ -23,11 +26,11 @@
   </tr>
   {% for x in logs %}
   <tr>
-    <td>{{ x.user }}</td>
+    <td>{{ x.user }}</a></td>
     <td>{{ x.date_completed }}</td>
     <td>{{ x.sets }}</td>
     <td>{{ x.reps }}</td>
-    <td>{{ x.total }}</td>  
+    <td>{{ x.total }}</td>
   </tr>
   {% endfor %}
 </table>
