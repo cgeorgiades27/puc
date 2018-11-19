@@ -1,5 +1,7 @@
 {% extends 'tracker/base.html' %}
 {% block content %}
+<br>
+<h3>Log detail for entry: {{ log.id }}</h3>
 <table>
     <tr>
         <th>User</th>
@@ -16,3 +18,4 @@
         <td>{{ log.total }}</td>
     </tr>
 </table>
+{% endblock %}

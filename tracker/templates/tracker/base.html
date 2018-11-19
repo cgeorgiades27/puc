@@ -1,26 +1,24 @@
 {% load static %}
 <html>
-
-<head>
-	<title>Push Up Tracker</title>
-	<link rel="stylesheet" type="text/css" href="{% static 'tracker/style.css' %}">
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
-	<link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
-	 integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
-	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-</head>
-
-<body>
-	<div class="page-header">
-		<div class="row">
-		<h1>Push Up Tracker</h1>
-		<a href="{% url 'log_new' %}" style="float: left;" class="top-menu"><i class="material-icons">add</i></a>
-		</div>
-	</div>
-	<div class="container">
-		{% block content %}
-		{% endblock %}
-	</div>
-</body>
+  <head>
+    <title>Push Up Tracker</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'tracker/style.css' %}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css"
+	  integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  </head>
+  <body>
+    <div class="page-header">
+      <div class="row">
+	<h1>Push Up Tracker</h1>
+	<a href="{% url 'log_new' %}" style="float: left;" class="top-menu"><i class="material-icons">add</i></a>
+      </div>
+    </div>
+    <div>
+      {% block content %}
+      {% endblock %}
+    </div>
+  </body>
 <html>

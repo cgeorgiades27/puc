@@ -1,7 +1,7 @@
 {% extends 'tracker/base.html' %}
 {% block content %}
 <br>
-<h3>All time ruuning total:</h3>
+<h3>All time running total:</h3>
 <table>
   <tr>
     <th>User</th>
@@ -26,7 +26,7 @@
   </tr>
   {% for x in logs %}
   <tr>
-    <td>{{ x.user }}</a></td>
+    <td><a href="{% url 'log_detail' pk=x.pk %}">{{ x.user }}</a></td>
     <td>{{ x.date_completed }}</td>
     <td>{{ x.sets }}</td>
     <td>{{ x.reps }}</td>
