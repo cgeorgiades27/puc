@@ -71,7 +71,7 @@ h1, h2, h3, h4 {
 }
 
 .button[type="submit"] {
-    width: 100%;
+    width: 10%;
     background-color: #4CAF50;
     color: white;
     padding: 14px 20px;

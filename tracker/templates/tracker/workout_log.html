@@ -1,6 +1,20 @@
 {% extends 'tracker/base.html' %}
 {% block content %}
 <br>
+<h3>Last day running total:</h3>
+<table>
+  <tr>
+    <th>User_ID</th>
+    <th>Total All Time</th>
+  </tr>
+  {% for x in group1 %}
+  <tr>
+    <td><a href="{% url 'user_logs' user_id=x.user %}">{{ x.user }}</a></td>
+    <td>{{ x.total }}</td>
+  </tr>
+  {% endfor %}
+</table>
+<br>
 <h3>Last 7 days running total:</h3>
 <table>
   <tr>

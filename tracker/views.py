@@ -23,6 +23,7 @@ def workout_log(request):
         dateSet = Entry.objects.filter(date_completed__gte=refDate)
         return dateSet.values('user').annotate(total = Sum( F('reps') * F('sets'))).order_by('-total')
 
+    group1 = DateRange(1)
     group7 = DateRange(7)
     group30 = DateRange(30)
     group10k = DateRange(10000)
@@ -30,6 +31,7 @@ def workout_log(request):
 
     return render(request, 'tracker/workout_log.html', 
     {
+        'group1' : group1,
         'group7' : group7,
         'group30' : group30,
         'group10k' : group10k,
