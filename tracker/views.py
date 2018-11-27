@@ -15,6 +15,11 @@ def user_logs(request, user_id):
     user = User.objects.filter(id=user_id).values('username')
     return render(request, 'tracker/user_logs.html', {'user_logs': user_logs, 'user': user})
 
+def competition(request):
+    left = Entry.objects.values('user').annotate(remaining = 5000 - (Sum( F('reps') * F('sets')))).order_by('-remaining')
+    users = User.objects.all().order_by('-id')
+    return render(request, 'tracker/competition.html', { 'left' : left, 'users' : users })
+
 def workout_log(request):
     logs = Entry.objects.all().order_by('-date_completed')
 
@@ -39,7 +44,6 @@ def workout_log(request):
         'users': users,
     })
         
-
 def log_new(request):
     if request.method == "POST":
         form = EntryForm(request.POST)

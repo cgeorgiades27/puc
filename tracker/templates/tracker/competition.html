@@ -1,0 +1,13 @@
+{% extends 'tracker/base.html' %}
+{% block content %}
+<br>
+<h3>Left for competition:</h3>
+
+{% for x in users %}
+{{ x.username }}
+  {% for x in left %}
+  <p> has {{ x.remaining }} </p>
+  {% endfor %}
+{% endfor %}
+
+{% endblock %}

@@ -13,10 +13,11 @@ class Entry(models.Model):
     def publish(self):
         self.date_entered = timezone.now()
         self.save()
-
+        
     def total(self):
-       total = self.reps * self.sets
-       return total
-
+        total = self.reps * self.sets
+        return total
+    
     def __str__(self):
         return "Entry: " +  str(self.id) + " - " + str(self.user) + "date: " + str(self.date_completed.date())
+        
