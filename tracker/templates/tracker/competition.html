@@ -1,13 +1,30 @@
 {% extends 'tracker/base.html' %}
 {% block content %}
 <br>
-<h3>Left for competition:</h3>
-
-{% for x in users %}
-{{ x.username }}
-  {% for x in left %}
-  <p> has {{ x.remaining }} </p>
+<h3>Days remaining in competition: {{ daysRemaining }}</h3>
+<table>
+  <tr>
+    <th>Username</th>
+    <th>User ID</th>
+  </tr>
+  {% for x in users %}
+  <tr>
+    <td>{{ x.username }}</td>
+    <td>{{ x.id }} </td>
+  </tr>
   {% endfor %}
-{% endfor %}
-
+</table>
+<br>
+<table>
+  <tr>
+    <th>User ID</th>
+    <th>Remaing Push Ups</th>
+  </tr>
+  {% for x in remainingPushUps %}
+  <tr>
+    <td>{{ x.user }}</td>
+    <td>{{ x.total }}</td>
+  </tr>
+  {% endfor %}
+</table>
 {% endblock %}

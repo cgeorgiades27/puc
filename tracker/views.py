@@ -16,9 +16,18 @@ def user_logs(request, user_id):
     return render(request, 'tracker/user_logs.html', {'user_logs': user_logs, 'user': user})
 
 def competition(request):
-    left = Entry.objects.values('user').annotate(remaining = 5000 - (Sum( F('reps') * F('sets')))).order_by('-remaining')
     users = User.objects.all().order_by('-id')
-    return render(request, 'tracker/competition.html', { 'left' : left, 'users' : users })
+    entry = Entry.objects.all()
+    startDate = date(2018, 11, 27)
+    setRange = Entry.objects.filter(date_completed__gte=startDate)
+    daysRemaining = (date(2018, 12, 31) - date.today()).days
+    remainingPushUps = setRange.values('user').annotate(total = 5000 - (Sum( F('reps') * F('sets')))).order_by('-total')
+    return render(request, 'tracker/competition.html', {
+        'remainingPushUps' : remainingPushUps,
+        'users' : users,
+        'daysRemaining' : daysRemaining,
+        'entry' : entry,
+        })
 
 def workout_log(request):
     logs = Entry.objects.all().order_by('-date_completed')
