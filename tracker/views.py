@@ -23,7 +23,7 @@ def competition(request):
     todayRange = Entry.objects.filter(date_completed__gte=date.today())
     todayTotal = todayRange.values('user').annotate(todayTotal = Sum( F('reps') * F('sets'))).order_by('-todayTotal')
     daysRemaining = (date(2018, 12, 31) - date.today()).days
-    remainingPushUps = setRange.values('user').annotate(total = 5000 - (Sum( F('reps') * F('sets')))).order_by('-total')
+    remainingPushUps = setRange.values('user').annotate(total = 5000 - (Sum( F('reps') * F('sets')))).order_by('total')
     return render(request, 'tracker/competition.html', {
         'remainingPushUps' : remainingPushUps,
         'users' : users,
