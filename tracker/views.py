@@ -20,6 +20,8 @@ def competition(request):
     entry = Entry.objects.all()
     startDate = date(2018, 11, 27)
     setRange = Entry.objects.filter(date_completed__gte=startDate)
+    todayRange = Entry.objects.filter(date_completed__gte=date.today())
+    todayTotal = todayRange.values('user').annotate(todayTotal = Sum( F('reps') * F('sets'))).order_by('-todayTotal')
     daysRemaining = (date(2018, 12, 31) - date.today()).days
     remainingPushUps = setRange.values('user').annotate(total = 5000 - (Sum( F('reps') * F('sets')))).order_by('-total')
     return render(request, 'tracker/competition.html', {
@@ -27,6 +29,7 @@ def competition(request):
         'users' : users,
         'daysRemaining' : daysRemaining,
         'entry' : entry,
+        'todayTotal' : todayTotal,
         })
 
 def workout_log(request):
@@ -37,7 +40,7 @@ def workout_log(request):
         dateSet = Entry.objects.filter(date_completed__gte=refDate)
         return dateSet.values('user').annotate(total = Sum( F('reps') * F('sets'))).order_by('-total')
 
-    group1 = DateRange(1)
+    group0 = DateRange(0)
     group7 = DateRange(7)
     group30 = DateRange(30)
     group10k = DateRange(10000)
@@ -45,7 +48,7 @@ def workout_log(request):
 
     return render(request, 'tracker/workout_log.html', 
     {
-        'group1' : group1,
+        'group1' : group0,
         'group7' : group7,
         'group30' : group30,
         'group10k' : group10k,

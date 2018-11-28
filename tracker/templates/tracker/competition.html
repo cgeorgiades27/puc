@@ -4,13 +4,26 @@
 <h3>Days remaining in competition: {{ daysRemaining }}</h3>
 <table>
   <tr>
-    <th>Username</th>
     <th>User ID</th>
+    <th>Username</th>
   </tr>
   {% for x in users %}
   <tr>
-    <td>{{ x.username }}</td>
-    <td>{{ x.id }} </td>
+    <td>{{ x.id }}</td>
+    <td>{{ x.username }} </td>
+  </tr>
+  {% endfor %}
+</table>
+<br>
+<table>
+  <tr>
+    <th>User ID</th>
+    <th>Today's Total</th>
+  </tr>
+  {% for x in todayTotal %}
+  <tr>
+    <td>{{ x.user }}</td>
+    <td>{{ x.todayTotal }}</td>
   </tr>
   {% endfor %}
 </table>
