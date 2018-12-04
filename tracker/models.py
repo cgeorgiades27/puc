@@ -18,5 +18,5 @@ class Entry(models.Model):
         return total
     
     def __str__(self):
-        return "Entry: " +  str(self.id) + " - " + str(self.user) + "date: " + str(self.date_completed.date())
+        return "Entry: " +  str(self.id) + " - " + str(self.user) + "date: " + str(self.date_completed)
         
