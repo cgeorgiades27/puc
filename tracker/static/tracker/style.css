@@ -5,13 +5,13 @@ table {
 }
 
 th {
-    border: 1px solid #3681f9;
+    border: 1.5px solid #33ffc6;
     font-weight: bolder;
     text-align: left;
     padding: 5px;
 }
 td {
-    border: 1px solid #3681f9;
+    border: 1.5px solid #33ffc6;
     text-align: left;
     padding: 5px;
     font-size: 13
@@ -27,7 +27,7 @@ body {
 }
 
 .page-header {
-    background-color: #4286f4;
+    background-color: #33ffc6;
     margin-top: 0;
     padding: 20px 20px 20px 40px;
 }
