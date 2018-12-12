@@ -6,17 +6,14 @@ from django.db.models import Count, Sum, F, IntegerField
 from .forms import EntryForm
 from django.contrib.auth.models import User
 
-
 def log_detail(request, pk):
     log = get_object_or_404(Entry, pk=pk)
     return render(request, 'tracker/log_detail.html', {'log': log})
-
 
 def user_logs(request, user_id):
     user_logs = Entry.objects.filter(user_id=user_id)
     user = User.objects.filter(id=user_id).values('username')
     return render(request, 'tracker/user_logs.html', {'user_logs': user_logs, 'user': user})
-
 
 def competition(request):
     users = User.objects.all().order_by('-id')
@@ -25,10 +22,12 @@ def competition(request):
     setRange = Entry.objects.filter(date_completed__gte=startDate)
     todayRange = Entry.objects.filter(date_completed__gte=date.today())
     todayTotal = todayRange.values('user').annotate(
-    todayTotal=Sum(F('reps') * F('sets'))).order_by('-todayTotal')
+        todayTotal=Sum(F('reps') * F('sets'))).order_by('-todayTotal')
     daysRemaining = (date(2018, 12, 31) - date.today()).days
-    remainingPushUps = setRange.values('user').annotate(total = 5000 - (Sum(F('reps') * F('sets')))).order_by('total')
-    perDay = setRange.values('user').annotate(total = (5000 - (Sum(F('reps') * F('sets')))) / daysRemaining).order_by('total')
+    remainingPushUps = setRange.values('user').annotate(
+        total=5000 - (Sum(F('reps') * F('sets')))).order_by('total')
+    perDay = setRange.values('user').annotate(
+        total=(5000 - (Sum(F('reps') * F('sets')))) / daysRemaining).order_by('total')
     return render(request, 'tracker/competition.html', {
         'remainingPushUps': remainingPushUps,
         'users': users,
@@ -37,7 +36,6 @@ def competition(request):
         'todayTotal': todayTotal,
         'perDay': perDay,
     })
-
 
 def workout_log(request):
     logs = Entry.objects.all().order_by('-date_completed')
@@ -61,8 +59,8 @@ def workout_log(request):
                       'group10k': group10k,
                       'logs': logs,
                       'users': users,
-                  })
-
+                  }
+                  )
 
 def log_new(request):
     if request.method == "POST":
