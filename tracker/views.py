@@ -21,13 +21,10 @@ def competition(request):
     startDate = date(2018, 11, 27)
     setRange = Entry.objects.filter(date_completed__gte=startDate)
     todayRange = Entry.objects.filter(date_completed__gte=date.today())
-    todayTotal = todayRange.values('user').annotate(
-        todayTotal=Sum(F('reps') * F('sets'))).order_by('-todayTotal')
     daysRemaining = (date(2018, 12, 31) - date.today()).days
-    remainingPushUps = setRange.values('user').annotate(
-        total=5000 - (Sum(F('reps') * F('sets')))).order_by('total')
-    perDay = setRange.values('user').annotate(
-        total=(5000 - (Sum(F('reps') * F('sets')))) / daysRemaining).order_by('total')
+    todayTotal = todayRange.values('user__username').annotate(todayTotal = Sum(F('reps') * F('sets'))).order_by('-todayTotal')
+    remainingPushUps = setRange.values('user__username').annotate(total = 5000 - (Sum(F('reps') * F('sets')))).order_by('total')
+    perDay = setRange.values('user__username').annotate(total = (5000 - (Sum(F('reps') * F('sets')))) / daysRemaining).order_by('total')
     return render(request, 'tracker/competition.html', {
         'remainingPushUps': remainingPushUps,
         'users': users,
@@ -41,9 +38,9 @@ def workout_log(request):
     logs = Entry.objects.all().order_by('-date_completed')
 
     def DateRange(n):
-        refDate = date.today() - timedelta(days=n)
-        dateSet = Entry.objects.filter(date_completed__gte=refDate)
-        return dateSet.values('user').annotate(total=Sum(F('reps') * F('sets'))).order_by('-total')
+        refDate = date.today() - timedelta(days = n)
+        dateSet = Entry.objects.filter(date_completed__gte = refDate)
+        return dateSet.values('user').annotate(total = Sum(F('reps') * F('sets'))).order_by('-total')
 
     group0 = DateRange(0)
     group7 = DateRange(7)

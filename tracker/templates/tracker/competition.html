@@ -2,61 +2,48 @@
 {% block content %}
 <br>
 <h3>Days remaining in competition: {{ daysRemaining }}</h3>
-<div class="row" style="padding: 15px; width 50%;">
-  <div class="column" style="width: 25%;">
-    <table style="width:75%;">
-      <tr>
-        <th>User ID</th>
-        <th>Today's Total</th>
-      </tr>
-      {% for x in todayTotal %}
-      <tr>
-        <td>{{ x.user }}</td>
-        <td>{{ x.todayTotal }}</td>
-      </tr>
-      {% endfor %}
-    </table>
-    <br>
-    <table style="width:75%;">
-      <tr>
-        <th>User ID</th>
-        <th>Needed /Day</th>
-      </tr>
-      {% for x in perDay %}
-      <tr>
-        <td>{{ x.user }}</td>
-        <td>{{ x.total }}</td>
-      </tr>
-      {% endfor %}
-    </table>
-    </table>
-  </div>
-  <div class="column" style="width:40%;">
-    <table>
-      <tr>
-        <th>User ID</th>
-        <th>Username</th>
-      </tr>
-      {% for x in users %}
-      <tr>
-        <td>{{ x.id }}</td>
-        <td>{{ x.username }} </td>
-      </tr>
-      {% endfor %}
-    </table>
-  </div>
+<div>
+  <table style="width:25%;">
+    <tr>
+      <th>Username</th>
+      <th>Today's Total</th>
+    </tr>
+    {% for x in todayTotal %}
+    <tr>
+      <td>{{ x.user__username }}</td>
+      <td>{{ x.todayTotal }}</td>
+    </tr>
+    {% endfor %}
+  </table>
 </div>
 <br>
-<table>
-  <tr>
-    <th>User ID</th>
-    <th>Remaing Push Ups</th>
-  </tr>
-  {% for x in remainingPushUps %}
-  <tr>
-    <td>{{ x.user }}</td>
-    <td>{{ x.total }}</td>
-  </tr>
-  {% endfor %}
-</table>
-{% endblock %}
+<div>
+  <table style="width:25%;">
+    <tr>
+      <th>Username</th>
+      <th>Needed /Day</th>
+    </tr>
+    {% for x in perDay %}
+    <tr>
+      <td>{{ x.user__username }}</td>
+      <td>{{ x.total }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+<br>
+<div>
+  <table style="width:25%;">
+    <tr>
+      <th>Username</th>
+      <th>Remaing Push Ups</th>
+    </tr>
+    {% for x in remainingPushUps %}
+    <tr>
+      <td>{{ x.user__username }}</td>
+      <td>{{ x.total }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+  {% endblock %}
+</div>
