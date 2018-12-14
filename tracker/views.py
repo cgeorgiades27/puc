@@ -40,13 +40,12 @@ def workout_log(request):
     def DateRange(n):
         refDate = date.today() - timedelta(days = n)
         dateSet = Entry.objects.filter(date_completed__gte = refDate)
-        return dateSet.values('user').annotate(total = Sum(F('reps') * F('sets'))).order_by('-total')
+        return dateSet.values('user__username').annotate(total = Sum(F('reps') * F('sets'))).order_by('-total')
 
     group0 = DateRange(0)
     group7 = DateRange(7)
     group30 = DateRange(30)
     group10k = DateRange(10000)
-    users = User.objects.all().order_by('id')
 
     return render(request, 'tracker/workout_log.html',
                   {
@@ -55,7 +54,6 @@ def workout_log(request):
                       'group30': group30,
                       'group10k': group10k,
                       'logs': logs,
-                      'users': users,
                   }
                   )
 

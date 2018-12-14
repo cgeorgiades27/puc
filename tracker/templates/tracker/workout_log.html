@@ -4,12 +4,12 @@
 <h3>All time running total:</h3>
 <table>
   <tr>
-    <th>User_ID</th>
+    <th>Username</th>
     <th>Total All Time</th>
   </tr>
   {% for x in group10k %}
   <tr>
-      <td><a href="{% url 'user_logs' user_id=x.user %}">{{ x.user }}</a></td>
+      <td>{{ x.user__username }}</a></td>
     <td>{{ x.total }}</td>
   </tr>
   {% endfor %}
@@ -18,8 +18,7 @@
 <h3>All time recorded:</h3>
 <table>
   <tr>
-    <th>User_ID</th>
-    <th>User</th>
+    <th>Username</th>
     <th>Date</th>
     <th>Sets</th>
     <th>Reps</th>
@@ -27,7 +26,6 @@
   </tr>
   {% for x in logs %}
   <tr>
-    <td>{{ x.user_id }}</td>
     <td><a href="{% url 'log_detail' pk=x.pk %}">{{ x.user }}</a></td>
     <td>{{ x.date_completed }}</td>
     <td>{{ x.sets }}</td>
