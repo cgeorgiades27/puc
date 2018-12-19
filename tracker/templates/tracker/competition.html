@@ -39,10 +39,17 @@
       <th>Remaing Push Ups</th>
     </tr>
     {% for x in remainingPushUps %}
+    {% if x.user__username == leader.user__username %}
+    <tr>
+      <td><i class="material-icons">outlined_flag </i>{{ x.user__username }}</td>
+      <td>{{ x.total }}</td>
+    </tr>
+    {% else %}
     <tr>
       <td>{{ x.user__username }}</td>
       <td>{{ x.total }}</td>
     </tr>
+    {% endif %}
     {% endfor %}
   </table>
   {% endblock %}

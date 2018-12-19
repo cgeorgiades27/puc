@@ -1,12 +1,10 @@
-
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
-
 body {
     padding-left: 20px;
 }
 
+header {
+    padding-left: 0px;
+}
 .content {
     margin-left: 80px;
 }

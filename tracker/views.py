@@ -22,6 +22,7 @@ def competition(request):
     daysRemaining = (date(2018, 12, 31) - date.today()).days
     todayTotal = todayRange.values('user__username').annotate(todayTotal = Sum(F('reps') * F('sets'))).order_by('-todayTotal')
     remainingPushUps = setRange.values('user__username').annotate(total = 5000 - (Sum(F('reps') * F('sets')))).order_by('total')
+    leader = remainingPushUps.first()
     perDay = setRange.values('user__username').annotate(total = (5000 - (Sum(F('reps') * F('sets')))) / daysRemaining).order_by('total')
     return render(request, 'tracker/competition.html', {
         'remainingPushUps' : remainingPushUps,
@@ -29,6 +30,7 @@ def competition(request):
         'entry' : entry,
         'todayTotal': todayTotal,
         'perDay' : perDay,
+        'leader' : leader,
     })
 
 def workout_log(request):
