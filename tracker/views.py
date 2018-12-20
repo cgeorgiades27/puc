@@ -2,9 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from datetime import timedelta, date
 from .models import Entry
-from django.db.models import Count, Sum, F, IntegerField
+from django.db.models import Count, Sum, F, IntegerField, Min
 from .forms import EntryForm
-from django.contrib.auth.models import User
 
 def log_detail(request, pk):
     log = get_object_or_404(Entry, pk=pk)
@@ -12,11 +11,10 @@ def log_detail(request, pk):
 
 def user_logs(request, user_id):
     user_logs = Entry.objects.filter(user_id=user_id)
-    user = User.objects.filter(id=user_id).values('username')
+    user = user_logs.values('user__username')
     return render(request, 'tracker/user_logs.html', {'user_logs': user_logs, 'user': user})
 
 def competition(request):
-    users = User.objects.all().order_by('-id')
     entry = Entry.objects.all()
     startDate = date(2018, 11, 27)
     setRange = Entry.objects.filter(date_completed__gte=startDate)
@@ -24,14 +22,15 @@ def competition(request):
     daysRemaining = (date(2018, 12, 31) - date.today()).days
     todayTotal = todayRange.values('user__username').annotate(todayTotal = Sum(F('reps') * F('sets'))).order_by('-todayTotal')
     remainingPushUps = setRange.values('user__username').annotate(total = 5000 - (Sum(F('reps') * F('sets')))).order_by('total')
+    leader = remainingPushUps.first()
     perDay = setRange.values('user__username').annotate(total = (5000 - (Sum(F('reps') * F('sets')))) / daysRemaining).order_by('total')
     return render(request, 'tracker/competition.html', {
-        'remainingPushUps': remainingPushUps,
-        'users': users,
-        'daysRemaining': daysRemaining,
-        'entry': entry,
+        'remainingPushUps' : remainingPushUps,
+        'daysRemaining' : daysRemaining,
+        'entry' : entry,
         'todayTotal': todayTotal,
-        'perDay': perDay,
+        'perDay' : perDay,
+        'leader' : leader,
     })
 
 def workout_log(request):

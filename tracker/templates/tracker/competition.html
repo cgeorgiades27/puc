@@ -3,7 +3,7 @@
 <br>
 <h3>Days remaining in competition: {{ daysRemaining }}</h3>
 <div>
-  <table style="width:25%;">
+  <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
     <tr>
       <th>Username</th>
       <th>Today's Total</th>
@@ -18,7 +18,7 @@
 </div>
 <br>
 <div>
-  <table style="width:25%;">
+  <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
     <tr>
       <th>Username</th>
       <th>Needed /Day</th>
@@ -33,16 +33,23 @@
 </div>
 <br>
 <div>
-  <table style="width:25%;">
+  <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
     <tr>
       <th>Username</th>
       <th>Remaing Push Ups</th>
     </tr>
     {% for x in remainingPushUps %}
+    {% if x.user__username == leader.user__username %}
+    <tr>
+      <td><i class="material-icons">outlined_flag </i>{{ x.user__username }}</td>
+      <td>{{ x.total }}</td>
+    </tr>
+    {% else %}
     <tr>
       <td>{{ x.user__username }}</td>
       <td>{{ x.total }}</td>
     </tr>
+    {% endif %}
     {% endfor %}
   </table>
   {% endblock %}
