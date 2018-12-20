@@ -17,3 +17,16 @@ header {
     margin-bottom: 70px;
 }
 
+td {
+    float: left;
+    text-align: left;
+    width: 150px;
+    margin: 0px;
+}
+
+th {
+    float: left;
+    width: 150px;
+    text-align: left;
+    margin: 0px;
+}

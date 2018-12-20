@@ -28,7 +28,7 @@
   </tr>
   {% for x in logs %}
   <tr>
-    <td><a href="{% url 'log_detail' pk=x.pk %}">{{ x.user }}</a></td>
+    <td class="mdl-data-table__cell--non-numeric"><a href="{% url 'log_detail' pk=x.pk %}">{{ x.user }}</a></td>
     <td>{{ x.date_completed }}</td>
     <td>{{ x.sets }}</td>
     <td>{{ x.reps }}</td>
