@@ -63,7 +63,7 @@ def log_new(request):
             entry = form.save(commit=False)
             entry.date_entered = timezone.now()
             entry.save()
-            return redirect('log_detail', pk=entry.id)
+            return redirect('competition')
     else:
         form = EntryForm()
     return render(request, 'tracker/log_new.html', {'form': form})

@@ -3,21 +3,20 @@
 <br>
 <h3>All time running total:</h3>
 <div class="mdl-grid">
-    {% for x in group10k %}
-        <div style="width: 210px;" class="mdl-cell mdl-cell--1-col">
-            <div style="width: 200px; height: 275px;" class="mdl-card mdl-shadow--4dp">
-              <div class="mdl-card__media"><img src="https://i.ytimg.com/vi/TONW3GOKrUY/hqdefault.jpg" width="173" height="157" border="0"
-               alt="" style="padding:10px;">
-              </div>
-              <div style="font-weight:bold" class="mdl-card__supporting-text">
-                {{ x.user__username }}
-              </div>
-              <div class="mdl-card__supporting-text">
-              Completed a total of {{ x.total }} push-ups
-              </div>
-            </div>
-        </div>
-    {% endfor %}
+  {% for x in group10k %}
+  <div style="width: 210px;" class="mdl-cell mdl-cell--1-col">
+    <div style="width: 200px; height: 275px;" class="mdl-card mdl-shadow--4dp">
+      <div class="mdl-card__media"><img src="https://i.ytimg.com/vi/TONW3GOKrUY/hqdefault.jpg" width="173" height="157" alt="" style="padding:10px;">
+      </div>
+      <div style="font-weight:bold" class="mdl-card__supporting-text">
+        {{ x.user__username }}
+      </div>
+      <div class="mdl-card__supporting-text">
+        Completed a total of {{ x.total }} push-ups
+      </div>
+    </div>
+  </div>
+  {% endfor %}
 </div>
 <br>
 <br>
