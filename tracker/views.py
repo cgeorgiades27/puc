@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponseRedirect
 from django.utils import timezone
 from datetime import timedelta, date
 from .models import Entry
+from django.contrib.auth.models import User
 from django.db.models import Count, Sum, F, IntegerField, Min
-from .forms import EntryForm
+from .forms import EntryForm, ProfileSettings
 
 def log_detail(request, pk):
     log = get_object_or_404(Entry, pk=pk)
@@ -35,12 +37,11 @@ def competition(request):
 
 def workout_log(request):
     logs = Entry.objects.all().order_by('-date_completed')
-
+    prof = User.objects.annotate(tot=Sum(F('entry__reps') * F('entry__sets')))
     def DateRange(n):
         refDate = date.today() - timedelta(days = n)
         dateSet = Entry.objects.filter(date_completed__gte = refDate)
         return dateSet.values('user__username').annotate(total = Sum(F('reps') * F('sets'))).order_by('-total')
-
     group0 = DateRange(0)
     group7 = DateRange(7)
     group30 = DateRange(30)
@@ -53,6 +54,7 @@ def workout_log(request):
                       'group30': group30,
                       'group10k': group10k,
                       'logs': logs,
+                      'prof': prof,
                   }
                   )
 
@@ -67,3 +69,13 @@ def log_new(request):
     else:
         form = EntryForm()
     return render(request, 'tracker/log_new.html', {'form': form})
+
+def user_settings(request):
+    if request.method == "POST":
+        form = ProfileSettings(request.POST)
+        if form.is_valid():
+            form.pic_url.save()
+            return redirect('competition')
+    else:
+        form = ProfileSettings()
+    return render(request, 'tracker/url_new.html', {'form': form})
