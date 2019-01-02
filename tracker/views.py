@@ -5,7 +5,7 @@ from datetime import timedelta, date
 from .models import Entry
 from django.contrib.auth.models import User
 from django.db.models import Count, Sum, F, IntegerField, Min
-from .forms import EntryForm, ProfileSettings
+from .forms import EntryForm #,ProfileSettings
 
 def log_detail(request, pk):
     log = get_object_or_404(Entry, pk=pk)
@@ -19,19 +19,13 @@ def user_logs(request, user_id):
 def competition(request):
     entry = Entry.objects.all()
     startDate = date(2018, 11, 27)
-    setRange = Entry.objects.filter(date_completed__gte=startDate)
-    todayRange = Entry.objects.filter(date_completed__gte=date.today())
-    daysRemaining = (date(2018, 12, 31) - date.today()).days
-    todayTotal = todayRange.values('user__username').annotate(todayTotal = Sum(F('reps') * F('sets'))).order_by('-todayTotal')
-    remainingPushUps = setRange.values('user__username').annotate(total = 5000 - (Sum(F('reps') * F('sets')))).order_by('total')
-    leader = remainingPushUps.first()
-    perDay = setRange.values('user__username').annotate(total = (5000 - (Sum(F('reps') * F('sets')))) / daysRemaining).order_by('total')
+    endDate = date(2018, 12, 31)
+    setRange = Entry.objects.filter(date_completed__gte=startDate, date_completed__lte=endDate)
+    totalPushUps = setRange.values('user__username').annotate(total = (Sum(F('reps') * F('sets')))).order_by('total')
+    leader = totalPushUps.first()
     return render(request, 'tracker/competition.html', {
-        'remainingPushUps' : remainingPushUps,
-        'daysRemaining' : daysRemaining,
+        'totalPushUps' : totalPushUps,
         'entry' : entry,
-        'todayTotal': todayTotal,
-        'perDay' : perDay,
         'leader' : leader,
     })
 
@@ -69,7 +63,7 @@ def log_new(request):
     else:
         form = EntryForm()
     return render(request, 'tracker/log_new.html', {'form': form})
-
+"""
 def user_settings(request):
     if request.method == "POST":
         form = ProfileSettings(request.POST)
@@ -79,3 +73,4 @@ def user_settings(request):
     else:
         form = ProfileSettings()
     return render(request, 'tracker/url_new.html', {'form': form})
+"""

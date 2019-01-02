@@ -4,15 +4,19 @@
 <h3>Log detail for entry: {{ log.id }}</h3>
 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
     <tr>
+        <th>ID</th>
         <th>User</th>
         <th>Date</th>
+        <th>Workout Title</th>
         <th>Sets</th>
         <th>Reps</th>
         <th>Total</th>
     </tr>
     <tr>
+        <td>{{ log.id }}</td>
         <td>{{ log.user }}</a></td>
         <td>{{ log.date_completed }}</td>
+        <td>{{ log.workout_title }}</td>
         <td>{{ log.sets }}</td>
         <td>{{ log.reps }}</td>
         <td>{{ log.total }}</td>

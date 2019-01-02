@@ -5,6 +5,7 @@
 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
     <tr>
         <th>Date</th>
+        <th>Type</th>
         <th>Sets</th>
         <th>Reps</th>
         <th>Total</th>
@@ -12,6 +13,7 @@
     {% for x in user_logs %}
     <tr>
         <td>{{ x.date_completed }}</td>
+        <td>{{ x.workout_title }}</td>
         <td>{{ x.sets }}</td>
         <td>{{ x.reps }}</td>
         <td>{{ x.total }}</td>
