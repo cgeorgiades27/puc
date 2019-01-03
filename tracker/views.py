@@ -13,8 +13,12 @@ def log_detail(request, pk):
 
 def user_logs(request, user_id):
     user_logs = Entry.objects.filter(user_id=user_id)
-    user = user_logs.values('user__username')
+    user = user_logs.values('user__username').first()
     return render(request, 'tracker/user_logs.html', {'user_logs': user_logs, 'user': user})
+
+def workout_by_type(request, user_id, workout_title):
+    type_logs = Entry.objects.filter(user_id=user_id, workout_title=workout_title)
+    return render(request, 'tracker/type_logs.html', { 'type_logs' : type_logs})
 
 def competition(request):
     entry = Entry.objects.all()
@@ -59,7 +63,7 @@ def log_new(request):
             entry = form.save(commit=False)
             entry.date_entered = timezone.now()
             entry.save()
-            return redirect('competition')
+            return redirect('log_detail', pk=entry.id)
     else:
         form = EntryForm()
     return render(request, 'tracker/log_new.html', {'form': form})

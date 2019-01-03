@@ -30,3 +30,12 @@ th {
     text-align: left;
     margin: 0px;
 }
+
+.mdl-navigation {
+    float: left;
+}
+
+.demo-layout-transparent {
+    background: url('https://i.pinimg.com/originals/08/db/50/08db50e90e51c5929a3217c9ad94c383.jpg') center / cover;
+  }
+

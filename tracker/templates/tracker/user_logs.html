@@ -1,9 +1,10 @@
 {% extends 'tracker/base.html' %}
 {% block content %}
 <br>
-<h3>Log detail for: {{ user_username }}</h3>
+<h4>Page for for: {{ user.user__username }}</h4>
 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
     <tr>
+        <th>ID</th>
         <th>Date</th>
         <th>Type</th>
         <th>Sets</th>
@@ -12,6 +13,7 @@
     </tr>
     {% for x in user_logs %}
     <tr>
+        <td><a href = "{% url 'log_detail' pk=x.id %}">{{ x.id }}</a></td>
         <td>{{ x.date_completed }}</td>
         <td>{{ x.workout_title }}</td>
         <td>{{ x.sets }}</td>

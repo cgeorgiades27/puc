@@ -1,28 +1,12 @@
 {% extends 'tracker/base.html' %}
 {% block content %}
 <br>
-<h3>All time running total:</h3>
-<div class="mdl-grid">
-  {% for x in prof %}
-  <div style="width: 210px;" class="mdl-cell mdl-cell--1-col">
-    <div style="width: 200px; height: 275px;" class="mdl-card mdl-shadow--4dp">
-      <div class="mdl-card__media"><img src={{ x.profile.pic_url }} width="173" height="157" alt="" style="padding:10px;">
-      </div>
-      <div style="font-weight:bold" class="mdl-card__supporting-text">
-        {{ x.username}}
-      </div>
-      <div class="mdl-card__supporting-text">
-        Completed a total of <b>{{ x.tot }}</b> push-ups
-      </div>
-    </div>
-  </div>
-  {% endfor %}
-</div>
-<br>
-<h3>All time recorded:</h3>
+<h4>All time recorded:</h4>
 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
   <tr>
+    <th>ID</th>
     <th>Username</th>
+    <th>Exercise</th>
     <th>Date</th>
     <th>Sets</th>
     <th>Reps</th>
@@ -30,7 +14,9 @@
   </tr>
   {% for x in logs %}
   <tr>
-    <td class="mdl-data-table__cell--non-numeric"><a href="{% url 'log_detail' pk=x.pk %}">{{ x.user }}</a></td>
+    <td><a href="{% url 'log_detail' pk=x.pk %}">{{ x.id }}</a></td>
+    <td><a href="{% url 'user_logs' user_id=x.user_id %}">{{ x.user }}</a></td>
+    <td>{{ x.workout_title }}</td>
     <td>{{ x.date_completed }}</td>
     <td>{{ x.sets }}</td>
     <td>{{ x.reps }}</td>

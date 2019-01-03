@@ -7,5 +7,6 @@ urlpatterns = [
     path('log/new/', views.log_new, name = 'log_new'),
     path('user_id/<int:user_id>', views.user_logs, name = 'user_logs'),
     path('competition', views.competition, name = 'competition'),
+    #path('<int:user_id>/<int:workout_title')
     #path('url/new/', views.user_settings, name = 'user_settings'),
 ]
