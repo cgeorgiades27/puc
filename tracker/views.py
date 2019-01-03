@@ -13,7 +13,7 @@ def log_detail(request, pk):
     return render(request, 'tracker/log_detail.html', {'log': log})
 
 def user_logs(request, user_id):
-    userLogs = Entry.objects.filter(user_id=user_id)
+    userLogs = Entry.objects.filter(user_id=user_id).order_by('-date_completed')
     user = userLogs.values('user__username').first()
     todaySet = Entry.objects.filter(user_id=user_id, date_completed__gte=datetime.date.today())
     todayTotal = todaySet.values('workout_title__workout_title').annotate(total = (Sum(F('reps') * F('sets'))))
