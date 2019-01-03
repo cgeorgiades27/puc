@@ -23,9 +23,9 @@ def workout_by_type(request, user_id, workout_title):
 def competition(request):
     entry = Entry.objects.all()
     startDate = date(2018, 11, 27)
-    endDate = date(2018, 12, 31)
+    endDate = date(2019, 1, 1)
     setRange = Entry.objects.filter(date_completed__gte=startDate, date_completed__lte=endDate)
-    totalPushUps = setRange.values('user__username').annotate(total = (Sum(F('reps') * F('sets')))).order_by('total')
+    totalPushUps = setRange.values('user__username').annotate(total = (Sum(F('reps') * F('sets')))).order_by('-total')
     leader = totalPushUps.first()
     return render(request, 'tracker/competition.html', {
         'totalPushUps' : totalPushUps,
