@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class Workouts(models.Model):
     workout_title = models.CharField(max_length = 50)
     workout_url = models.URLField(max_length = 500, null = True)
-
+    
     def __str__(self):
         return self.workout_title
 
