@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
 from django.utils import timezone
-from datetime import timedelta, date
-from .models import Entry
+import datetime
+from datetime import date, timedelta
+from .models import Entry, Workouts
 from django.contrib.auth.models import User
 from django.db.models import Count, Sum, F, IntegerField, Min
 from .forms import EntryForm #,ProfileSettings
@@ -12,9 +13,11 @@ def log_detail(request, pk):
     return render(request, 'tracker/log_detail.html', {'log': log})
 
 def user_logs(request, user_id):
-    user_logs = Entry.objects.filter(user_id=user_id)
-    user = user_logs.values('user__username').first()
-    return render(request, 'tracker/user_logs.html', {'user_logs': user_logs, 'user': user})
+    userLogs = Entry.objects.filter(user_id=user_id)
+    user = userLogs.values('user__username').first()
+    todaySet = Entry.objects.filter(user_id=user_id, date_completed__gte=datetime.date.today())
+    todayTotal = todaySet.values('workout_title__workout_title').annotate(total = (Sum(F('reps') * F('sets'))))
+    return render(request, 'tracker/user_logs.html', {'userLogs': userLogs, 'user': user, 'todayTotal' : todayTotal})
 
 def workout_by_type(request, user_id, workout_title):
     type_logs = Entry.objects.filter(user_id=user_id, workout_title=workout_title)
@@ -24,7 +27,7 @@ def competition(request):
     entry = Entry.objects.all()
     startDate = date(2018, 11, 27)
     endDate = date(2019, 1, 1)
-    setRange = Entry.objects.filter(date_completed__gte=startDate, date_completed__lte=endDate)
+    setRange = Entry.objects.filter(date_completed__gte=startDate, date_completed__lt=endDate)
     totalPushUps = setRange.values('user__username').annotate(total = (Sum(F('reps') * F('sets')))).order_by('-total')
     leader = totalPushUps.first()
     return render(request, 'tracker/competition.html', {

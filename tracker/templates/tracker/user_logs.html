@@ -1,7 +1,10 @@
 {% extends 'tracker/base.html' %}
 {% block content %}
-<br>
-<h4>Page for for: {{ user.user__username }}</h4>
+<h4>Page for: {{ user.user__username }}</h4>
+<p>Total /set type:</p>
+{% for x in todayTotal %}
+<p>{{ x.workout_title__workout_title }}: {{ x.total }}</p>
+{% endfor %}
 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
     <tr>
         <th>ID</th>
@@ -11,7 +14,7 @@
         <th>Reps</th>
         <th>Total</th>
     </tr>
-    {% for x in user_logs %}
+    {% for x in userLogs %}
     <tr>
         <td><a href = "{% url 'log_detail' pk=x.id %}">{{ x.id }}</a></td>
         <td>{{ x.date_completed }}</td>

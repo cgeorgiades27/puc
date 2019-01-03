@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 class Workouts(models.Model):
     workout_title = models.CharField(max_length = 50)
-    workout_url = models.URLField(max_length = 500, null = True)
+    workout_url = models.URLField(max_length = 500, null = True, blank = True)
     
     def __str__(self):
         return self.workout_title
@@ -16,7 +16,7 @@ class Entry(models.Model):
     sets = models.IntegerField()
     date_entered = models.DateTimeField(default = timezone.now)
     date_completed = models.DateTimeField(blank = True, null = True, default = timezone.now)
-    workout_title = models.ForeignKey(Workouts, on_delete=models.CASCADE, null = True)
+    workout_title = models.ForeignKey(Workouts, related_name='workouts', on_delete=models.CASCADE, null = True)
 
     def publish(self):
         self.date_entered = timezone.now()
