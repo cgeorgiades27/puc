@@ -1,0 +1,20 @@
+{% extends 'tracker/base.html' %}
+{% block content %}
+<br>
+<h3>{{ compName.compName__compName }}</h3>
+<p>The following are required to complete {{ compName.compName__compName }}</p>
+<div>
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+        <tr>
+            <th>Workout</th>
+            <th>Total Reps</th>
+        </tr>
+        {% for x in compEntries %}
+        <tr>
+            <td>{{ x.workout_title }}</td>
+            <td>{{ x.totalReps }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endblock %}
+</div>

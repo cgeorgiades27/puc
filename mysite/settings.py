@@ -77,11 +77,10 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cgeorgiades$workout_data',
-        'USER': 'cgeorgiades',
-        'PASSWORD': '8hK65suNKhuo',
-        'HOST': 'cgeorgiades.mysql.pythonanywhere-services.com',
-        'OPTIONS': { 'init_command': "SET sql_mode='STRICT_TRANS_TABLES'" }
+        'OPTIONS': { 
+            'read_default_file': '/etc/mysql/my.cnf',
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'" 
+            }
     },
 }
 
@@ -111,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'EST'
+TIME_ZONE = 'America/New_York'
 
 USE_I18N = True
 

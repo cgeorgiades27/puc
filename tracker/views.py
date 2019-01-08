@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.utils import timezone
 import datetime
 from datetime import date, timedelta
-from .models import Entry, Workouts
+from .models import Entry, Workouts, Competition, CompEntry
 from django.contrib.auth.models import User
 from django.db.models import Count, Sum, F, IntegerField, Min
 from .forms import EntryForm #,ProfileSettings
@@ -70,6 +70,17 @@ def log_new(request):
     else:
         form = EntryForm()
     return render(request, 'tracker/log_new.html', {'form': form})
+
+def competition_list(request):
+    competitions = Competition.objects.all().order_by('-compName')
+    return render(request, 'tracker/competition_list.html', { 'competitions' : competitions} )
+
+def comp_entry(request, compName_id):
+    compEntries = CompEntry.objects.filter(compName_id=compName_id)
+    compName = compEntries.values('compName__compName').first()
+    return render(request, 'tracker/comp_entry.html', { 'compEntries' : compEntries, 'compName' : compName })
+
+
 """
 def user_settings(request):
     if request.method == "POST":
