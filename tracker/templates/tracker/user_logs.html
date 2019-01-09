@@ -7,9 +7,9 @@
         <th>Type</th>
         <th>Total</th>
     </tr>
-    {% for x in userLogs %}
+    {% for x in todayTotal %}
     <tr>
-        <td>{{ x.workout_title }}</td>
+        <td>{{ x.workout_title__workout_title }}</td>
         <td>{{ x.total }}</td>
     </tr>
     {% endfor %}
