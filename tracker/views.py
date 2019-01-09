@@ -50,16 +50,11 @@ def workout_log(request):
         refDate = date.today() - timedelta(days = n)
         dateSet = Entry.objects.filter(date_completed__gte = refDate)
         return dateSet.values('user__username').annotate(total = Sum(F('reps') * F('sets'))).order_by('-total')
-    group0 = DateRange(0)
-    group7 = DateRange(7)
-    group30 = DateRange(30)
+
     group10k = DateRange(10000)
 
     return render(request, 'tracker/workout_log.html',
                   {
-                      'group1': group0,
-                      'group7': group7,
-                      'group30': group30,
                       'group10k': group10k,
                       'logs': logs,
                       'prof': prof,
@@ -84,7 +79,7 @@ def competition_list(request):
 
 def comp_entry(request, compName_id):
     compEntries = CompEntry.objects.filter(compName_id=compName_id)
-    start = Competition.objects.filter(id=compName_id).values('startDate')
+    startDate = date(Competition.objects.filter(id=compName_id).values('startDate'))
     endDate = Competition.objects.filter(id=compName_id).values('endDate')
     compName = compEntries.values('compName__compName').first()
     return render(request, 'tracker/comp_entry.html', {
