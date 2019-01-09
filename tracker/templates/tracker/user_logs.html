@@ -1,24 +1,49 @@
 {% extends 'tracker/base.html' %}
 {% block content %}
 <h4>Page for: {{ user.user__username }}</h4>
-<p>Total /set type:</p>
-{% for x in todayTotal %}
-<p>{{ x.workout_title__workout_title }}: {{ x.total }}</p>
-{% endfor %}
+<p><strong>Today's Totals:</strong></p>
 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
     <tr>
-        <th>ID</th>
+        <th>Type</th>
+        <th>Total</th>
+    </tr>
+    {% for x in userLogs %}
+    <tr>
+        <td>{{ x.workout_title }}</td>
+        <td>{{ x.total }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<br>
+<p><strong>All Time Totals:</strong></p>
+<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+    <tr>
+        <th>Type</th>
+        <th>Total</th>
+    </tr>
+    {% for x in allTotal %}
+    <tr>
+        <td>{{ x.workout_title__workout_title }}</td>
+        <td>{{ x.total }}</td>
+    </tr>
+    {% endfor %}
+</table>
+<br>
+<p><strong>All Records:</strong></p>
+<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+    <tr>
         <th>Date</th>
         <th>Type</th>
+        <th>Weight</th>
         <th>Sets</th>
         <th>Reps</th>
         <th>Total</th>
     </tr>
     {% for x in userLogs %}
     <tr>
-        <td><a href = "{% url 'log_detail' pk=x.id %}">{{ x.id }}</a></td>
         <td>{{ x.date_completed }}</td>
         <td>{{ x.workout_title }}</td>
+        <td>{{ x.weight }}</td>
         <td>{{ x.sets }}</td>
         <td>{{ x.reps }}</td>
         <td>{{ x.total }}</td>

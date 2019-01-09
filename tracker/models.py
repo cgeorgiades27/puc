@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.core.validators import MaxValueValidator
 
 class Workouts(models.Model):
     workout_title = models.CharField(max_length = 50)
@@ -17,7 +18,7 @@ class UserProfile(models.Model):
 """
 
 class Competition(models.Model):
-    compName = models.CharField(max_length=100)
+    compName = models.CharField(max_length=50)
     startDate = models.DateTimeField(default = timezone.now)
     endDate = models.DateTimeField(blank = True, null = True)
     
@@ -27,16 +28,16 @@ class Competition(models.Model):
 class CompEntry(models.Model):
     compName = models.ForeignKey(Competition, related_name = 'competition', on_delete=models.CASCADE)
     workout_title = models.ForeignKey(Workouts, on_delete = models.CASCADE)
-    totalReps = models.IntegerField()
+    totalReps = models.IntegerField(validators=[MaxValueValidator(999999)])
 
     def __str__(self):
         return str(self.compName) + " " + "entry: " + str(self.id)
 
 class Entry(models.Model):
     user = models.ForeignKey(User, related_name='entry', on_delete=models.CASCADE)
-    reps = models.IntegerField()
-    sets = models.IntegerField()
-    weight = models.IntegerField(blank = True, null = True)
+    reps = models.PositiveIntegerField(validators=[MaxValueValidator(99999)])
+    sets = models.PositiveIntegerField(validators=[MaxValueValidator(9999)])
+    weight = models.IntegerField(blank = True, null = True, validators=[MaxValueValidator(9999)])
     date_entered = models.DateTimeField(default = timezone.now)
     date_completed = models.DateTimeField(blank = True, null = True, default = timezone.now)
     workout_title = models.ForeignKey(Workouts, related_name='workouts', on_delete=models.CASCADE, null = True)

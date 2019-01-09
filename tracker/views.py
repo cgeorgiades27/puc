@@ -17,7 +17,14 @@ def user_logs(request, user_id):
     user = userLogs.values('user__username').first()
     todaySet = Entry.objects.filter(user_id=user_id, date_completed__gte=datetime.date.today())
     todayTotal = todaySet.values('workout_title__workout_title').annotate(total = (Sum(F('reps') * F('sets'))))
-    return render(request, 'tracker/user_logs.html', {'userLogs': userLogs, 'user': user, 'todayTotal' : todayTotal})
+    allTotal = Entry.objects.filter(user_id=user_id).values('workout_title__workout_title').annotate(total = (Sum(F('reps') * F('sets'))))
+    return render(request, 'tracker/user_logs.html',
+    {
+        'userLogs': userLogs,
+        'user': user,
+        'todayTotal' : todayTotal,
+        'allTotal' : allTotal
+    })
 
 def workout_by_type(request, user_id, workout_title):
     type_logs = Entry.objects.filter(user_id=user_id, workout_title=workout_title)
@@ -77,10 +84,16 @@ def competition_list(request):
 
 def comp_entry(request, compName_id):
     compEntries = CompEntry.objects.filter(compName_id=compName_id)
+    start = Competition.objects.filter(id=compName_id).values('startDate')
+    endDate = Competition.objects.filter(id=compName_id).values('endDate')
     compName = compEntries.values('compName__compName').first()
-    return render(request, 'tracker/comp_entry.html', { 'compEntries' : compEntries, 'compName' : compName })
-
-
+    return render(request, 'tracker/comp_entry.html', {
+        'compEntries' : compEntries,
+        'compName' : compName,
+        'start' : start,
+        'endDate' : endDate
+        }
+        )
 """
 def user_settings(request):
     if request.method == "POST":
