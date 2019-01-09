@@ -5,7 +5,7 @@ from .models import Entry, Workouts
 class EntryForm(forms.ModelForm):
     class Meta:
         model = Entry
-        fields = ('user', 'date_completed', 'workout_title', 'sets', 'reps', 'weight', 'compName')
+        fields = ('user', 'date_completed', 'workout_title', 'sets', 'reps', 'weight')
 """
 class ProfileSettings(forms.ModelForm):
     class Meta:
