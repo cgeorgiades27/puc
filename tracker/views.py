@@ -5,7 +5,7 @@ import datetime
 from datetime import date, timedelta
 from .models import Entry, Workouts, Competition, CompEntry
 from django.contrib.auth.models import User
-from django.db.models import Count, Sum, F, IntegerField, Min
+from django.db.models import Count, Sum, F, IntegerField, Min, Q
 from .forms import EntryForm #,ProfileSettings
 
 def log_detail(request, pk):
@@ -79,14 +79,17 @@ def competition_list(request):
 
 def comp_entry(request, compName_id):
     compEntries = CompEntry.objects.filter(compName_id=compName_id)
-    startDate = date(Competition.objects.filter(id=compName_id).values('startDate'))
-    endDate = Competition.objects.filter(id=compName_id).values('endDate')
     compName = compEntries.values('compName__compName').first()
+    startDate = Competition.objects.filter(id=compName_id).values('startDate')
+    endDate = Competition.objects.filter(id=compName_id).values('endDate')
+    maxID = list(CompEntry.objects.values('workout_title_id').last().values())
+    progSet = Entry.objects.filter(date_completed__gte=startDate, date_completed__lt=endDate, workout_title_id__lte=maxID[0])
     return render(request, 'tracker/comp_entry.html', {
         'compEntries' : compEntries,
         'compName' : compName,
-        'start' : start,
-        'endDate' : endDate
+        'startDate' : startDate,
+        'endDate' : endDate,
+        'progSet' : progSet,
         }
         )
 """
