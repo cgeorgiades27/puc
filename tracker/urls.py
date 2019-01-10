@@ -1,5 +1,7 @@
 from django.urls import path
+from django.conf.urls import url
 from . import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('', views.workout_log, name = 'workout_log'),
@@ -8,7 +10,10 @@ urlpatterns = [
     path('user_id/<int:user_id>', views.user_logs, name = 'user_logs'),
     path('competition', views.competition, name = 'competition'),
     path('competition_list', views.competition_list, name = 'competition_list'),
-    path('comp_entry/<int:compName_id>', views.comp_entry, name = 'comp_entry')
-    #path('<int:user_id>/<int:workout_title')
+    path('comp_entry/<int:compName_id>', views.comp_entry, name = 'comp_entry'),
+    path('profile', views.profile, name = 'profile'),
+    path('update_profile', views.update_profile, name = 'update_profile'),
+    url('login', auth_views.LoginView.as_view(), name='login'),
+    url('logout', auth_views.LogoutView.as_view(), name='logout'),
     #path('url/new/', views.user_settings, name = 'user_settings'),
 ]

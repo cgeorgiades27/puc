@@ -6,7 +6,7 @@ from datetime import date, timedelta
 from .models import Entry, Workouts, Competition, CompEntry
 from django.contrib.auth.models import User
 from django.db.models import Count, Sum, F, IntegerField, Min, Q
-from .forms import EntryForm #,ProfileSettings
+from .forms import EntryForm, ProfileForm
 
 def log_detail(request, pk):
     log = get_object_or_404(Entry, pk=pk)
@@ -92,6 +92,26 @@ def comp_entry(request, compName_id):
         'progSet' : progSet,
         }
         )
+
+def profile(request):
+    if request.user.is_authenticated:
+        profile = request.user.profile
+        return render(request, 'tracker/profile.html', {'profile': profile})
+    else:
+        return redirect('login')
+
+def update_profile(request):
+    if request.method == 'POST':
+        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        if profile_form.is_valid():
+            profile_form.save()
+            return redirect('profile')
+    else:
+        profile_form = ProfileForm(instance=request.user.profile)
+    return render(request, 'tracker/update_profile.html', {
+        'profile_form': profile_form
+    })
+
 """
 def user_settings(request):
     if request.method == "POST":
