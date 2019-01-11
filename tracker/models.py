@@ -62,6 +62,10 @@ class Entry(models.Model):
     def total(self):
         total = self.reps * self.sets
         return total
+    
+    def totalWeight(self):
+        totalWeight = self.reps * self.sets * self.weight
+        return totalWeight
 
     def __str__(self):
         return "Entry: " +  str(self.id) + " - " + str(self.user) + "date: " + str(self.date_completed)
