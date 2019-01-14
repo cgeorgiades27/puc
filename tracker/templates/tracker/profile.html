@@ -1,25 +1,39 @@
 {% extends 'tracker/base.html' %}
 {% block content %}
+<style>
+.mdl-card {
+
+}
+.mdl-card > .mdl-card__title {
+  color: #fff;
+  background: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/items/566020/bba5cf5acb1e03045d81555821b986c7461ca64c.jpg') center / cover;
+}
+.mdl-card > .mdl-card__media > .avatar {
+  width: 94%;
+  padding:10px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 50%;
+}
+</style>
 <br>
-<h4>{% if user.is_authenticated %}
-    {{ user.username }}
-{% else %}
-    Not logged in.
-{% endif %}</h4>
+<h4>My Profile</h4>
 <div class="mdl-grid">
-<div class="mdl-card mdl-shadow--4dp">
-      <div class="mdl-card__media"><img src="{{ user.profile.pic_url }}" width="173" height="157" border="0"
-       alt="" style="padding:10px;">
-      </div>
-      <div class="mdl-card__supporting-text">
-        Birthday: {{ user.profile.bday }}
-      </div>
-      <div class="mdl-card__supporting-text">
-      Motto: {{ user.profile.motto }}
-      </div>
-      <div class="mdl-card__actions">
-         <a href="{% url 'update_profile' %}">update profile</a>
-      </div>
+    <div class="mdl-cell mdl-cell--1-col">
+        <div class="mdl-card mdl-shadow--4dp">
+            <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">{{ user.username }}</h2>
+            </div>
+            <div class="mdl-card__media">
+                <img class="avatar" src="{{ user.profile.pic_url }}" alt="profile picture">
+            </div>
+            <div class="mdl-card__supporting-text">
+                Motto: {{ user.profile.motto }}<br>
+            </div>
+            <div class="mdl-card__actions">
+                <a href="{% url 'update_profile' %}">update profile</a>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
