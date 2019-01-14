@@ -16,5 +16,19 @@
         </tr>
         {% endfor %}
     </table>
+    <br>
+    <h4>Progress:</h4>
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+      <tr>
+	<th>User</th>
+	<th>Workout</th>
+	<th>Completed</th>
+      </tr>
+      {% for x in progSetSum %}
+      <tr>
+	<td>{{ x.user__username }}</td>
+	<td>{{ x.workout_title__workout_title }}</td>
+	<td>{{ x.total }}</td>
+	{% endfor %}
     {% endblock %}
 </div>

@@ -83,13 +83,23 @@ def comp_entry(request, compName_id):
     startDate = Competition.objects.filter(id=compName_id).values('startDate')
     endDate = Competition.objects.filter(id=compName_id).values('endDate')
     maxID = list(CompEntry.objects.values('workout_title_id').last().values())
-    progSet = Entry.objects.filter(date_completed__gte=startDate, date_completed__lt=endDate, workout_title_id__lte=maxID[0])
+    minID = list(CompEntry.objects.values('workout_title_id').first().values())
+
+    progSet = Entry.objects.filter(
+        date_completed__gte=startDate,
+        date_completed__lt=endDate,
+        workout_title_id__lte=maxID[0],
+        workout_title_id__gte=minID[0]
+    )
+
+    progSetSum = progSet.values('user__username', 'workout_title__workout_title').annotate(total = Sum(F('sets') * F('reps')))
+    
     return render(request, 'tracker/comp_entry.html', {
         'compEntries' : compEntries,
         'compName' : compName,
         'startDate' : startDate,
         'endDate' : endDate,
-        'progSet' : progSet,
+        'progSetSum' : progSetSum,
         }
         )
 
