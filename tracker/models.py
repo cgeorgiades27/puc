@@ -37,6 +37,12 @@ class Competition(models.Model):
     def __str__(self):
         return str(self.compName) + " " + str(self.id)
 
+    def start(self):
+        return self.startDate
+
+    def end(self):
+        return self.endDate
+    
 class CompEntry(models.Model):
     compName = models.ForeignKey(Competition, related_name = 'competition', on_delete=models.CASCADE)
     workout_title = models.ForeignKey(Workouts, on_delete = models.CASCADE)

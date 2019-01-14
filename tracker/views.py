@@ -74,15 +74,16 @@ def log_new(request):
     return render(request, 'tracker/log_new.html', {'form': form})
 
 def competition_list(request):
-    competitions = Competition.objects.all().order_by('-compName')
+    competitions = Competition.objects.all().order_by('-endDate')
     return render(request, 'tracker/competition_list.html', { 'competitions' : competitions} )
 
 def comp_entry(request, compName_id):
     compEntries = CompEntry.objects.filter(compName_id=compName_id)
     compName = compEntries.values('compName__compName').first()
+    sDate = Competition.objects.filter(id=compName_id)
     startDate = Competition.objects.filter(id=compName_id).values('startDate')
     endDate = Competition.objects.filter(id=compName_id).values('endDate')
-    workoutID = CompEntry.objects.values('workout_title_id')
+    workoutID = CompEntry.objects.filter(compName_id=compName_id).values('workout_title_id')
 
     progSet = Entry.objects.filter(
         date_completed__gte=startDate,
@@ -98,6 +99,7 @@ def comp_entry(request, compName_id):
         'startDate' : startDate,
         'endDate' : endDate,
         'progSetSum' : progSetSum,
+        'sDate' : sDate,
         }
         )
 

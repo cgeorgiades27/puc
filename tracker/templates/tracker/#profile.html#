@@ -1,0 +1,25 @@
+{% extends 'tracker/base.html' %}
+{% block content %}
+<br>
+<h4>{% if user.is_authenticated %}
+  {{ user.username }}
+  {% else %}
+  Not logged in.
+  {% endif %}</h4>
+<div class="mdl-grid">
+  <div class="mdl-card mdl-shadow--4dp">
+    <div class="mdl-card__media"><img src="{{ user.profile.pic_url }}" width="173" height="157" border="0"
+				      alt="" style="padding:10px;">
+    </div>
+    <div class="mdl-card__supporting-text">
+      Birthday: {{ user.profile.bday }}
+    </div>
+    <div class="mdl-card__supporting-text">
+      Motto: {{ user.profile.motto }}
+    </div>
+    <div class="mdl-card__actions">
+      <a href="{% url 'update_profile' %}">update profile</a>
+    </div>
+  </div>
+</div>
+{% endblock %}
