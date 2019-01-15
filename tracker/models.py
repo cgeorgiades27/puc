@@ -16,7 +16,8 @@ class Workouts(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
-    pic_url = models.TextField(null=True, max_length=100, blank=True)
+    pic_url = models.TextField(null=True, max_length=100, blank=True, default="https://bankwatch.org/wp-content/uploads/2018/03/Portrait_Placeholder.png")
+    banner_url = models.TextField(null=True, max_length=100, blank=True, default="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/items/566020/bba5cf5acb1e03045d81555821b986c7461ca64c.jpg")
     motto = models.TextField(null=True, max_length=100, blank=True)
     bday = models.DateField(null=True, blank=True)
 
@@ -42,7 +43,7 @@ class Competition(models.Model):
 
     def end(self):
         return self.endDate
-    
+
 class CompEntry(models.Model):
     compName = models.ForeignKey(Competition, related_name = 'competition', on_delete=models.CASCADE)
     workout_title = models.ForeignKey(Workouts, on_delete = models.CASCADE)
@@ -68,7 +69,7 @@ class Entry(models.Model):
     def total(self):
         total = self.reps * self.sets
         return total
-    
+
     def totalWeight(self):
         totalWeight = self.reps * self.sets * self.weight
         return totalWeight
