@@ -2,26 +2,28 @@
 {% block content %}
 <br>
 <h4>All time recorded:</h4>
-<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-  <tr>
-    <th>Username</th>
-    <th>Date</th>
-    <th>Exercise</th>
-    <th>Weight</th>
-    <th>Sets</th>
-    <th>Reps</th>
-    <th>Total</th>
-  </tr>
-  {% for x in logs %}
-  <tr>
-    <td><a href="{% url 'user_logs' user_id=x.user_id %}">{{ x.user }}</a></td>
-    <td>{{ x.date_completed }}</td>
-    <td>{{ x.workout_title }}</td>
-    <td>{{ x.weight }}</td>
-    <td>{{ x.sets }}</td>
-    <td>{{ x.reps }}</td>
-    <td>{{ x.total }}</td>
-  </tr>
-  {% endfor %}
-</table>
+<div style="overflow-x:auto;">
+  <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+    <tr>
+      <th>Username</th>
+      <th>Date</th>
+      <th>Exercise</th>
+      <th>Weight</th>
+      <th>Sets</th>
+      <th>Reps</th>
+      <th>Total</th>
+    </tr>
+    {% for x in logs %}
+    <tr>
+      <td><a href="{% url 'user_logs' user_id=x.user_id %}">{{ x.user }}</a></td>
+      <td>{{ x.date_completed }}</td>
+      <td>{{ x.workout_title }}</td>
+      <td>{{ x.weight }}</td>
+      <td>{{ x.sets }}</td>
+      <td>{{ x.reps }}</td>
+      <td>{{ x.total }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
 {% endblock %}

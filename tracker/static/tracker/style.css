@@ -39,3 +39,7 @@ th {
     background: url('https://i.pinimg.com/originals/08/db/50/08db50e90e51c5929a3217c9ad94c383.jpg') center / cover;
   }
 
+.mdl-data-table mdl-js-data-table mdl-shadow {
+    border-collapse: collapse;
+    width: 100%;
+}

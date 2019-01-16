@@ -69,6 +69,7 @@ def log_new(request):
         if form.is_valid():
             entry = form.save(commit=False)
             entry.date_entered = timezone.now()
+            entry.user_id = request.user_id
             entry.save()
             return redirect('log_detail', pk=entry.id)
     else:
