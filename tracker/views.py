@@ -108,7 +108,36 @@ def comp_entry(request, compName_id):
 def profile(request):
     if request.user.is_authenticated:
         profile = request.user.profile
-        return render(request, 'tracker/profile.html', {'profile': profile})
+        u = profile.user
+        qs = Profile.objects.filter(user = u)
+        if qs.exists():
+            #compEntries = CompEntry.objects.filter(compName_id=compName_id)
+            #compName = compEntries.values('compName__compName').first()
+            #sDate = Competition.objects.filter(id=compName_id)
+            #startDate = Competition.objects.filter(id=compName_id).values('startDate')
+            #endDate = Competition.objects.filter(id=compName_id).values('endDate')
+            #workoutID = CompEntry.objects.filter(compName_id=compName_id).values('workout_title_id')
+
+            #progSet = Entry.objects.filter(
+                #date_completed__gte=startDate,
+                #date_completed__lt=endDate,
+                #workout_title_id__in=workoutID
+            #)
+
+            #progSetSum = progSet.values('user__username', 'workout_title__workout_title').annotate(total = Sum(F('sets') * F('reps')))
+
+            return render(request, 'tracker/profile.html', {
+                'profile': profile,
+                #'compEntries' : compEntries,
+                #'compName' : compName,
+                #'startDate' : startDate,
+                #'endDate' : endDate,
+                #'progSetSum' : progSetSum,
+                #'sDate' : sDate,
+                }
+                )
+        else:
+            return redirect('update_profile')
     else:
         return redirect('login')
 
