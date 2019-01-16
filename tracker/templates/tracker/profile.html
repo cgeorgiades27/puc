@@ -1,4 +1,4 @@
-{% extends 'tracker/base.html' %}
+{% extends 'tracker/user_logs.html' %}
 {% block content %}
 <style>
 .mdl-card {
@@ -6,7 +6,7 @@
 }
 .mdl-card > .mdl-card__title {
   color: #fff;
-  background: url('https://steamcdn-a.akamaihd.net/steamcommunity/public/images/items/566020/bba5cf5acb1e03045d81555821b986c7461ca64c.jpg') center / cover;
+  background: url("{{ user.profile.banner_url }}") center / cover;
 }
 .mdl-card > .mdl-card__media > .avatar {
   width: 94%;

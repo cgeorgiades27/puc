@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.utils import timezone
 import datetime
 from datetime import date, timedelta
-from .models import Entry, Workouts, Competition, CompEntry
+from .models import Entry, Workouts, Competition, CompEntry, Profile
 from django.contrib.auth.models import User
 from django.db.models import Count, Sum, F, IntegerField, Min, Q
 from .forms import EntryForm, ProfileForm
@@ -18,12 +18,14 @@ def user_logs(request, user_id):
     todaySet = Entry.objects.filter(user_id=user_id, date_completed__gte=datetime.date.today())
     todayTotal = todaySet.values('workout_title__workout_title').annotate(total = (Sum(F('reps') * F('sets'))))
     allTotal = Entry.objects.filter(user_id=user_id).values('workout_title__workout_title').annotate(total = (Sum(F('reps') * F('sets'))))
+    prof = Profile.objects.get(id=user_id)
     return render(request, 'tracker/user_logs.html',
     {
         'userLogs': userLogs,
         'user': user,
         'todayTotal' : todayTotal,
-        'allTotal' : allTotal
+        'allTotal' : allTotal,
+        'prof': prof,
     })
 
 def workout_by_type(request, user_id, workout_title):
@@ -45,7 +47,7 @@ def competition(request):
 
 def workout_log(request):
     logs = Entry.objects.all().order_by('-date_completed')
-    prof = User.objects.annotate(tot=Sum(F('entry__reps') * F('entry__sets')))
+    #prof = User.objects.annotate(tot=Sum(F('entry__reps') * F('entry__sets')))
     def DateRange(n):
         refDate = date.today() - timedelta(days = n)
         dateSet = Entry.objects.filter(date_completed__gte = refDate)
@@ -57,7 +59,7 @@ def workout_log(request):
                   {
                       'group10k': group10k,
                       'logs': logs,
-                      'prof': prof,
+                      #'prof': prof,
                   }
                   )
 
@@ -92,7 +94,7 @@ def comp_entry(request, compName_id):
     )
 
     progSetSum = progSet.values('user__username', 'workout_title__workout_title').annotate(total = Sum(F('sets') * F('reps')))
-    
+
     return render(request, 'tracker/comp_entry.html', {
         'compEntries' : compEntries,
         'compName' : compName,
@@ -121,15 +123,3 @@ def update_profile(request):
     return render(request, 'tracker/update_profile.html', {
         'profile_form': profile_form
     })
-
-"""
-def user_settings(request):
-    if request.method == "POST":
-        form = ProfileSettings(request.POST)
-        if form.is_valid():
-            form.pic_url.save()
-            return redirect('competition')
-    else:
-        form = ProfileSettings()
-    return render(request, 'tracker/url_new.html', {'form': form})
-"""

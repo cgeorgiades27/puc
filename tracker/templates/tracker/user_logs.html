@@ -1,53 +1,93 @@
 {% extends 'tracker/base.html' %}
 {% block content %}
-<h4>Page for: {{ user.user__username }}</h4>
-<p><strong>Today's Totals:</strong></p>
-<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-    <tr>
-        <th>Type</th>
-        <th>Total</th>
-    </tr>
-    {% for x in todayTotal %}
-    <tr>
-        <td>{{ x.workout_title__workout_title }}</td>
-        <td>{{ x.total }}</td>
-    </tr>
-    {% endfor %}
-</table>
-<br>
-<p><strong>All Time Totals:</strong></p>
-<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-    <tr>
-        <th>Type</th>
-        <th>Total</th>
-    </tr>
-    {% for x in allTotal %}
-    <tr>
-        <td>{{ x.workout_title__workout_title }}</td>
-        <td>{{ x.total }}</td>
-    </tr>
-    {% endfor %}
-</table>
-<br>
-<p><strong>All Records:</strong></p>
-<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-    <tr>
-        <th>Date</th>
-        <th>Type</th>
-        <th>Weight</th>
-        <th>Sets</th>
-        <th>Reps</th>
-        <th>Total</th>
-    </tr>
-    {% for x in userLogs %}
-    <tr>
-        <td>{{ x.date_completed }}</td>
-        <td>{{ x.workout_title }}</td>
-        <td>{{ x.weight }}</td>
-        <td>{{ x.sets }}</td>
-        <td>{{ x.reps }}</td>
-        <td>{{ x.total }}</td>
-    </tr>
-    {% endfor %}
-</table>
+<div class="mdl-grid">
+    <style>
+    .mdl-card {
+
+    }
+    .mdl-card > .mdl-card__title {
+      color: #fff;
+      background: url("{{ prof.banner_url }}") center / cover;
+    }
+    .mdl-card > .mdl-card__media > .avatar {
+      width: 94%;
+      padding:10px;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 50%;
+    }
+    .mdl-card > .mdl-card__supporting-text {
+      padding:25px;
+    }
+    </style>
+    <div class="mdl-cell mdl-cell--3-col">
+        <br>
+        <div class="mdl-card mdl-shadow--4dp">
+            <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">{{ prof.user }}</h2>
+            </div>
+            <div class="mdl-card__media">
+                <img class="avatar" src="{{ prof.pic_url }}" alt="profile picture">
+            </div>
+            <div class="mdl-card__supporting-text">
+                Motto: {{ prof.motto }}<br>
+            </div>
+        </div>
+    </div>
+    <div class="mdl-cell mdl-cell--3-col">
+        <p><strong>Today's Totals:</strong></p>
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+            <tr>
+                <th>Type</th>
+                <th>Total</th>
+            </tr>
+            {% for x in todayTotal %}
+            <tr>
+                <td>{{ x.workout_title__workout_title }}</td>
+                <td>{{ x.total }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br>
+        <p><strong>All Time Totals:</strong></p>
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+            <tr>
+                <th>Type</th>
+                <th>Total</th>
+            </tr>
+            {% for x in allTotal %}
+            <tr>
+                <td>{{ x.workout_title__workout_title }}</td>
+                <td>{{ x.total }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br>
+    </div>
+</div>
+<div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--6-col">
+        <p><strong>All Records:</strong></p>
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+            <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Weight</th>
+                <th>Sets</th>
+                <th>Reps</th>
+                <th>Total</th>
+            </tr>
+            {% for x in userLogs %}
+            <tr>
+                <td>{{ x.date_completed }}</td>
+                <td>{{ x.workout_title }}</td>
+                <td>{{ x.weight }}</td>
+                <td>{{ x.sets }}</td>
+                <td>{{ x.reps }}</td>
+                <td>{{ x.total }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+</div>
+
 {% endblock %}
