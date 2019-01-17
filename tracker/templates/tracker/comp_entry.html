@@ -1,34 +1,41 @@
 {% extends 'tracker/base.html' %}
 {% block content %}
+<h3><strong>{{ compName.compName__compName }}</strong></h3>
+
+{{ sDate.end }}
+
+{% for x in sDate %}
+<h5><strong>Start Date: </strong>{{ x.startDate }}</h5>
+<h5><strong>End Date: </strong>{{ x.endDate }}</h5>
+{% endfor %}
+
 <br>
-<h3>{{ compName.compName__compName }}</h3>
-<p>The following are required to complete {{ compName.compName__compName }}</p>
+<p>The following are <strong>REQUIRED</strong> to complete {{ compName.compName__compName }}</p>
 <div>
     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
         <tr>
-            <th>Workout</th>
+            <th class="mdl-data-table__cell--non-numeric">Workout</th>
             <th>Total Reps</th>
         </tr>
         {% for x in compEntries %}
         <tr>
-            <td>{{ x.workout_title }}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{ x.workout_title }}</td>
             <td>{{ x.totalReps }}</td>
         </tr>
         {% endfor %}
     </table>
-    <br>
     <h4>Progress:</h4>
     <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-      <tr>
-	<th>User</th>
-	<th>Workout</th>
-	<th>Completed</th>
-      </tr>
-      {% for x in progSetSum %}
-      <tr>
-	<td>{{ x.user__username }}</td>
-	<td>{{ x.workout_title__workout_title }}</td>
-	<td>{{ x.total }}</td>
-	{% endfor %}
+        <tr>
+            <th class="mdl-data-table__cell--non-numeric">User</th>
+            <th class="mdl-data-table__cell--non-numeric">Workout</th>
+            <th>Total</th>
+        </tr>
+        {% for x in progSetSum %}
+        <tr>
+            <td class="mdl-data-table__cell--non-numeric">{{ x.user__username }}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{ x.workout_title__workout_title }}</td>
+            <td>{{ x.total }}</td>
+        {% endfor %}
     {% endblock %}
 </div>

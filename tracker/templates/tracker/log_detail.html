@@ -17,9 +17,9 @@
         <td class ="mdl-data-table__cell--non-numeric"><a href="{% url 'user_logs' user_id=log.user_id %}">{{ log.user }}</a></td>
         <td class ="mdl-data-table__cell--non-numeric">{{ log.date_completed }}</td>
         <td class ="mdl-data-table__cell--non-numeric">{{ log.workout_title }}</td>
-        <td>{{ log.sets }}</td>
-        <td>{{ log.reps }}</td>
-        <td>{{ log.total }}</td>
+        <td class="mdl-data-table__cell--numeric">{{ log.sets }}</td>
+        <td class="mdl-data-table__cell--numeric">{{ log.reps }}</td>
+        <td class="mdl-data-table__cell--numeric">{{ log.total }}</td>
     </tr>
 </table>
 {% endblock %}

@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.core.validators import MaxValueValidator
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from datetime import date
 
 class Workouts(models.Model):
     workout_title = models.CharField(max_length = 50)
@@ -12,7 +13,6 @@ class Workouts(models.Model):
 
     def __str__(self):
         return self.workout_title
-
 
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
@@ -36,13 +36,16 @@ class Competition(models.Model):
     endDate = models.DateTimeField(blank = True, null = True)
 
     def __str__(self):
-        return str(self.compName) + " " + str(self.id)
+        return str(self.id) + ' :' + str(self.compName)
 
     def start(self):
         return self.startDate
 
     def end(self):
         return self.endDate
+
+    def over(self):
+        return date.today() > self.endDate.date()    
 
 class CompEntry(models.Model):
     compName = models.ForeignKey(Competition, related_name = 'competition', on_delete=models.CASCADE)
@@ -64,6 +67,7 @@ class Entry(models.Model):
 
     def publish(self):
         self.date_entered = timezone.now()
+        #self.user = request.user
         self.save()
 
     def total(self):

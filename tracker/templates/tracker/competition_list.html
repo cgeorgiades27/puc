@@ -1,20 +1,26 @@
 {% extends 'tracker/base.html' %}
 {% block content %}
 <br>
-<h3>Competitions:</h3>
+<h4><strong>Competitions:</strong></h4>
 <p>Current list of open competitions</p>
 <div>
-    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" style="width:45%;">
-      <tr>
-	<th class ="mdl-data-table__cell--non-numeric">Competition Name</th>
-	<th class ="mdl-data-table__cell--non-numeric">Start Date</th>
-	<th class ="mdl-data-table__cell--non-numeric">End Date</th>
+    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+        <tr>
+            <th class="mdl-data-table__cell--non-numeric">Competition Name</th>
+            <th class="mdl-data-table__cell--non-numeric">Start Date</th>
+            <th class="mdl-data-table__cell--non-numeric">End Date</th>
+            <th class="mdl-data-table__cell--non-numeric">Status</th>
         </tr>
         {% for x in competitions %}
         <tr>
-            <td><a href="{% url 'comp_entry' compName_id=x.pk %}">{{ x.compName }}</a></td>
-	    <td class="mdl-data-table__cell--non-numeric">{{ x.startDate }}</td>
-	    <td class="mdl-data-table__cell--non-numeric">{{ x.endDate }}</td>
+            <td class="mdl-data-table__cell--non-numeric"><a href="{% url 'comp_entry' compName_id=x.pk %}">{{ x.compName }}</a></td>
+            <td class="mdl-data-table__cell--non-numeric">{{ x.startDate }}</td>
+            <td class="mdl-data-table__cell--non-numeric">{{ x.endDate }}</td>
+            {% if x.over %}
+                <td class="mdl-data-table__cell--non-numeric"><i class="material-icons" style="color: #DE1738;">clear</i></td>
+            {% else %}
+            <td class="mdl-data-table__cell--non-numeric"><i class="material-icons" style="color: #39FF14;">done</i></td>
+            {% endif %}
         </tr>
         {% endfor %}
     </table>

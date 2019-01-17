@@ -7,6 +7,7 @@ from .models import Entry, Workouts, Competition, CompEntry, Profile
 from django.contrib.auth.models import User
 from django.db.models import Count, Sum, F, IntegerField, Min, Q
 from .forms import EntryForm, ProfileForm
+import gviz_api
 
 def log_detail(request, pk):
     log = get_object_or_404(Entry, pk=pk)
@@ -19,6 +20,7 @@ def user_logs(request, user_id):
     todayTotal = todaySet.values('workout_title__workout_title').annotate(total = (Sum(F('reps') * F('sets'))))
     allTotal = Entry.objects.filter(user_id=user_id).values('workout_title__workout_title').annotate(total = (Sum(F('reps') * F('sets'))))
     prof = Profile.objects.get(id=user_id)
+
     return render(request, 'tracker/user_logs.html',
     {
         'userLogs': userLogs,
@@ -67,18 +69,22 @@ def log_new(request):
     if request.method == "POST":
         form = EntryForm(request.POST)
         if form.is_valid():
-            entry = form.save(commit=False)
-            entry.date_entered = timezone.now()
-            entry.user_id = request.user_id
-            entry.save()
-            return redirect('log_detail', pk=entry.id)
+            if request.user.is_authenticated:
+                entry = form.save(commit=False)
+                entry.date_entered = timezone.now()
+                entry.user = request.user
+                entry.save()
+                return redirect('log_detail', pk=entry.id)
+            else:
+                return redirect('login')
     else:
         form = EntryForm()
     return render(request, 'tracker/log_new.html', {'form': form})
 
 def competition_list(request):
     competitions = Competition.objects.all().order_by('-endDate')
-    return render(request, 'tracker/competition_list.html', { 'competitions' : competitions} )
+    today = date.today()
+    return render(request, 'tracker/competition_list.html', { 'competitions' : competitions, 'today' : today } )
 
 def comp_entry(request, compName_id):
     compEntries = CompEntry.objects.filter(compName_id=compName_id)
