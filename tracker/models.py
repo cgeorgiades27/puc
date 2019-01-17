@@ -16,8 +16,8 @@ class Workouts(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, related_name='profile', on_delete=models.CASCADE)
-    pic_url = models.TextField(null=True, max_length=100, blank=True, default="https://bankwatch.org/wp-content/uploads/2018/03/Portrait_Placeholder.png")
-    banner_url = models.TextField(null=True, max_length=100, blank=True, default="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/items/566020/bba5cf5acb1e03045d81555821b986c7461ca64c.jpg")
+    pic_url = models.TextField(null=True, max_length=150, blank=True, default="https://bankwatch.org/wp-content/uploads/2018/03/Portrait_Placeholder.png")
+    banner_url = models.TextField(null=True, max_length=150, blank=True, default="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/items/566020/bba5cf5acb1e03045d81555821b986c7461ca64c.jpg")
     motto = models.TextField(null=True, max_length=100, blank=True)
     bday = models.DateField(null=True, blank=True)
 
@@ -63,7 +63,6 @@ class Entry(models.Model):
     date_entered = models.DateTimeField(default = timezone.now)
     date_completed = models.DateTimeField(blank = True, null = True, default = timezone.now)
     workout_title = models.ForeignKey(Workouts, related_name='workouts', on_delete=models.CASCADE, null = True)
-    compName = models.ForeignKey(Competition, blank = True, null = True, on_delete=models.CASCADE)
 
     def publish(self):
         self.date_entered = timezone.now()

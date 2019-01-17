@@ -33,13 +33,13 @@
         <p><strong>All Time Totals:</strong></p>
         <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
             <tr>
-                <th>Type</th>
-                <th>Total</th>
+                <th class="mdl-data-table__cell--non-numeric">Type</th>
+                <th class="mdl-data-table__cell--numeric">Total</th>
             </tr>
             {% for x in allTotal %}
             <tr>
-                <td>{{ x.workout_title__workout_title }}</td>
-                <td>{{ x.total }}</td>
+                <td class="mdl-data-table__cell--non-numeric">{{ x.workout_title__workout_title }}</td>
+                <td class="mdl-data-table__cell--numeric">{{ x.total }}</td>
             </tr>
             {% endfor %}
         </table>
