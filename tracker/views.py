@@ -19,7 +19,7 @@ def user_logs(request, user_id):
     todaySet = Entry.objects.filter(user_id=user_id, date_completed__gte=datetime.date.today())
     todayTotal = todaySet.values('workout_title__workout_title').annotate(total = (Sum(F('reps') * F('sets'))))
     allTotal = Entry.objects.filter(user_id=user_id).values('workout_title__workout_title').annotate(total = (Sum(F('reps') * F('sets'))))
-    prof = Profile.objects.get(id=user_id)
+    prof = Profile.objects.get(user_id=user_id)
 
     return render(request, 'tracker/user_logs.html',
     {
