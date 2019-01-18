@@ -1,5 +1,21 @@
 {% extends 'tracker/base.html' %}
 {% block content %}
+<style>
+.mdl-card {
+
+}
+.mdl-card > .mdl-card__title {
+  color: #fff;
+  background: url("{{ prof.banner_url }}") center / cover;
+}
+.mdl-card > .mdl-card__media > .avatar {
+  width: 94%;
+  padding:10px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 50%;
+}
+</style>
 <div class="mdl-grid">
     <div class="mdl-cell--3-col">
         <br>

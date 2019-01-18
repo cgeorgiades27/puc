@@ -19,7 +19,7 @@
 <br>
 <h4>My Profile</h4>
 <div class="mdl-grid">
-    <div class="mdl-cell mdl-cell--1-col">
+    <div class="mdl-cell--3-col">
         <div class="mdl-card mdl-shadow--4dp">
             <div class="mdl-card__title">
                 <h2 class="mdl-card__title-text">{{ user.username }}</h2>
@@ -35,5 +35,22 @@
             </div>
         </div>
     </div>
+{% for x in comp %}
+    <div class="mdl-cell--3-col">
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+            <caption><strong>{{ x.compName }}</strong><br>Ends: {{ x.endDate }}<caption></p>
+            <tr>
+                <th class="mdl-data-table__cell--non-numeric">Workout</th>
+                <th class="mdl-data-table__cell--numeric">Total</th>
+            </tr>
+            {% for x in progSetSum %}
+            <tr>
+                <td class="mdl-data-table__cell--non-numeric">{{ x.workout_title__workout_title }}</td>
+                <td class="mdl-data-table__cell--numeric">{{ x.total }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endfor %}
 </div>
 {% endblock %}
