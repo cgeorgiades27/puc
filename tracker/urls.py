@@ -15,5 +15,6 @@ urlpatterns = [
     path('update_profile', views.update_profile, name = 'update_profile'),
     url('login', auth_views.LoginView.as_view(), name='login'),
     url('logout', auth_views.LogoutView.as_view(), name='logout'),
+    path('all_logs', views.all_logs, name = 'all_logs')
     #path('url/new/', views.user_settings, name = 'user_settings'),
 ]

@@ -78,7 +78,10 @@ class Entry(models.Model):
         return total
 
     def totalWeight(self):
-        totalWeight = self.reps * self.sets * self.weight
+        if (self.weight):
+            totalWeight = self.reps * self.sets * self.weight
+        else:
+            totalWeight = 0
         return totalWeight
 
     def __str__(self):

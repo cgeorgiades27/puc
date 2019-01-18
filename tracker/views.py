@@ -47,8 +47,13 @@ def competition(request):
         'leader' : leader,
     })
 
-def workout_log(request):
+def all_logs(request):
     logs = Entry.objects.all().order_by('-date_completed')
+
+    return render(request, 'tracker/all_logs.html', { 'logs' : logs })
+
+def workout_log(request):
+    logs = Entry.objects.all().order_by('-date_completed')[:50]
     #prof = User.objects.annotate(tot=Sum(F('entry__reps') * F('entry__sets')))
     def DateRange(n):
         refDate = date.today() - timedelta(days = n)

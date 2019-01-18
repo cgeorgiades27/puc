@@ -1,7 +1,8 @@
 {% extends 'tracker/base.html' %}
 {% block content %}
 <br>
-<h4><strong>All time recorded:</strong></h4>
+<h4><strong>Last 50 Recorded:</strong></h4>
+<p>See all <a href="{% url 'all_logs'%}">here</a>.</p>
 <div style="overflow-x:auto;">
   <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
     <tr>
@@ -11,17 +12,19 @@
       <th>Weight</th>
       <th>Sets</th>
       <th>Reps</th>
-      <th>Total</th>
+      <th>Total Reps</th>
+      <th>Total Weight</th>
     </tr>
     {% for x in logs %}
     <tr>
       <td class="mdl-data-table__cell--non-numeric"><a href="{% url 'user_logs' user_id=x.user_id %}">{{ x.user }}</a></td>
       <td class="mdl-data-table__cell--non-numeric">{{ x.date_completed }}</td>
       <td class="mdl-data-table__cell--non-numeric">{{ x.workout_title }}</td>
-      <td class="mdl-data-table__cell--numeric">{{ x.weight }}</td>
-      <td class="mdl-data-table__cell--numeric">{{ x.sets }}</td>
-      <td class="mdl-data-table__cell--numeric">{{ x.reps }}</td>
-      <td class="mdl-data-table__cell--numeric">{{ x.total }}</td>
+      <td>{{ x.weight }}</td>
+      <td>{{ x.sets }}</td>
+      <td>{{ x.reps }}</td>
+      <td>{{ x.total }}</td>
+      <td>{{ x.totalWeight }}</td>
     </tr>
     {% endfor %}
   </table>
