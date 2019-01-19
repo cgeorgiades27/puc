@@ -6,7 +6,7 @@ from datetime import date, timedelta
 from .models import Entry, Workouts, Competition, CompEntry, Profile
 from django.contrib.auth.models import User
 from django.db.models import Count, Sum, F, IntegerField, Min, Q
-from .forms import EntryForm, ProfileForm
+from .forms import EntryForm, ProfileForm, NewWorkout
 import gviz_api
 
 def log_detail(request, pk):
@@ -48,7 +48,7 @@ def competition(request):
     })
 
 def all_logs(request):
-    logs = Entry.objects.all().order_by('-date_completed')
+    logs = Entry.objects.all().order_by('-date_completed', 'user_id')
 
     return render(request, 'tracker/all_logs.html', { 'logs' : logs })
 
@@ -86,6 +86,21 @@ def log_new(request):
         form = EntryForm()
     return render(request, 'tracker/log_new.html', {'form': form})
 
+def new_workout(request):
+    if request.method == "POST":
+        form = NewWorkout(request.POST)
+        if form.is_valid():
+            entry = form.save(commit=False)
+            entry.save()
+            return redirect('log_new')
+        else:
+            return redirect('new_workout')
+    else:
+        form = NewWorkout()
+    return render(request, 'tracker/new_workout.html', {'form' : form})
+    
+
+
 def competition_list(request):
     competitions = Competition.objects.all().order_by('-endDate')
     today = date.today()
@@ -105,7 +120,7 @@ def comp_entry(request, compName_id):
         workout_title_id__in=workoutID
     )
 
-    progSetSum = progSet.values('user__username', 'workout_title__workout_title').annotate(total = Sum(F('sets') * F('reps')))
+    progSetSum = progSet.values('user__username', 'workout_title__workout_title').annotate(total = Sum(F('sets') * F('reps'))).order_by('total')
 
     return render(request, 'tracker/comp_entry.html', {
         'compEntries' : compEntries,
@@ -127,7 +142,6 @@ def profile(request):
             comp = Competition.objects.all()
 
             progSet = Entry.objects.all()
-
             progSetSum = progSet.values('user__username', 'workout_title__workout_title').annotate(total = Sum(F('sets') * F('reps')))
 
             return render(request, 'tracker/profile.html', {

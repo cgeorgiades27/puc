@@ -1,20 +1,20 @@
 {% extends 'tracker/user_logs.html' %}
 {% block content %}
 <style>
-.mdl-card {
+    .mdl-card {}
 
-}
-.mdl-card > .mdl-card__title {
-  color: #fff;
-  background: url("{{ user.profile.banner_url }}") center / cover;
-}
-.mdl-card > .mdl-card__media > .avatar {
-  width: 94%;
-  padding:10px;
-  margin-left: auto;
-  margin-right: auto;
-  border-radius: 50%;
-}
+    .mdl-card>.mdl-card__title {
+        color: #fff;
+        background: url("{{ user.profile.banner_url }}") center / cover;
+    }
+
+    .mdl-card>.mdl-card__media>.avatar {
+        width: 94%;
+        padding: 10px;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 10%;
+    }
 </style>
 <br>
 <h4>My Profile</h4>
@@ -35,22 +35,5 @@
             </div>
         </div>
     </div>
-{% for x in comp %}
-    <div class="mdl-cell--3-col">
-        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-            <caption><strong>{{ x.compName }}</strong><br>Ends: {{ x.endDate }}<caption></p>
-            <tr>
-                <th class="mdl-data-table__cell--non-numeric">Workout</th>
-                <th class="mdl-data-table__cell--numeric">Total</th>
-            </tr>
-            {% for x in progSetSum %}
-            <tr>
-                <td class="mdl-data-table__cell--non-numeric">{{ x.workout_title__workout_title }}</td>
-                <td class="mdl-data-table__cell--numeric">{{ x.total }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
-{% endfor %}
 </div>
 {% endblock %}

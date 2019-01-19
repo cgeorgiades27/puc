@@ -18,3 +18,8 @@ class ProfileSettings(forms.ModelForm):
         model = UserProfile
         fields = ('user', 'pic_url',)
 """
+
+class NewWorkout(forms.ModelForm):
+    class Meta:
+        model = Workouts
+        fields = ('workout_title', 'workout_url')
