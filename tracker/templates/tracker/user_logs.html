@@ -1,92 +1,100 @@
 {% extends 'tracker/base.html' %}
 {% block content %}
-<style>
-    .mdl-card {}
 
-    .mdl-card>.mdl-card__title {
-        color: #fff;
-        background: url("{{ prof.banner_url }}") center / cover;
-    }
+<p><strong>Today's Totals:</strong></p>
 
-    .mdl-card>.mdl-card__media>.avatar {
-        width: 94%;
-        padding: 10px;
-        margin-left: auto;
-        margin-right: auto;
-        border-radius: 50%;
-    }
-</style>
-<div class="mdl-grid">
-    <div class="mdl-cell--3-col">
-        <br>
-        <div class="mdl-card mdl-shadow--4dp">
-            <div class="mdl-card__title">
-                <h2 class="mdl-card__title-text">{{ prof.user }}</h2>
-            </div>
-            <div class="mdl-card__media">
-                <img class="avatar" src="{{ prof.pic_url }}" alt="profile picture">
-            </div>
-            <div class="mdl-card__supporting-text">
-                Motto: {{ prof.motto }}<br>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="mdl-cell--2-col">
-    <p><strong>Today's Totals:</strong></p>
-    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-        <tr>
-            <th class="mdl-data-table__cell--non-numeric">Type</th>
-            <th class="mdl-data-table__cell--numeric">Total</th>
-        </tr>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Type');
+        data.addColumn('number', 'Total');
+
         {% for x in todayTotal %}
-        <tr>
-            <td class="mdl-data-table__cell--non-numeric">{{ x.workout_title__workout_title }}</td>
-            <td class="mdl-data-table__cell--numeric">{{ x.total }}</td>
-        </tr>
+            data.addRows([['{{ x.workout_title__workout_title }}', {{ x.total }}]]);
         {% endfor %}
-    </table>
-    <br>
-    <p><strong>All Time Totals:</strong></p>
-    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-        <tr>
-            <th class="mdl-data-table__cell--non-numeric">Type</th>
-            <th class="mdl-data-table__cell--numeric">Total</th>
-        </tr>
+
+    var options = {
+        'title': 'Distribution',
+        'width': 400,
+        'height': 300
+    };
+    // Instantiate and draw our chart, passing in some options.
+    var chart = new google.visualization.PieChart(document.getElementById('chart_div1'));
+    chart.draw(data, options);
+          }
+</script>
+
+<div id="chart_div1"></div>
+
+<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+    <tr>
+        <th class="mdl-data-table__cell--non-numeric">Type</th>
+        <th class="mdl-data-table__cell--numeric">Total</th>
+    </tr>
+    {% for x in todayTotal %}
+    <tr>
+        <td class="mdl-data-table__cell--non-numeric">{{ x.workout_title__workout_title }}</td>
+        <td class="mdl-data-table__cell--numeric">{{ x.total }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<br>
+<p><strong>All Records:</strong></p>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Type');
+        data.addColumn('number', 'Total');
+
         {% for x in allTotal %}
-        <tr>
-            <td class="mdl-data-table__cell--non-numeric">{{ x.workout_title__workout_title }}</td>
-            <td class="mdl-data-table__cell--numeric">{{ x.total }}</td>
-        </tr>
+            data.addRows([['{{ x.workout_title__workout_title }}', {{ x.total }}]]);
         {% endfor %}
-    </table>
-    <br>
-</div>
-</div>
 
-<div class="mdl-grid">
-    <div class="mdl-cell mdl-cell--6-col">
-        <p><strong>All Records:</strong></p>
-        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-            <tr>
-                <th class="mdl-data-table__cell--non-numeric">Date</th>
-                <th class="mdl-data-table__cell--non-numeric">Type</th>
-                <th class="mdl-data-table__cell--numeric">Weight</th>
-                <th>Sets</th>
-                <th>Reps</th>
-                <th>Total</th>
-            </tr>
-            {% for x in userLogs %}
-            <tr>
-                <td class="mdl-data-table__cell--non-numeric">{{ x.date_completed }}</td>
-                <td class="mdl-data-table__cell--non-numeric">{{ x.workout_title }}</td>
-                <td>{{ x.weight }}</td>
-                <td>{{ x.sets }}</td>
-                <td>{{ x.reps }}</td>
-                <td>{{ x.total }}</td>
-            </tr>
-            {% endfor %}
-        </table>
-    </div>
+    var options = {
+        'title': 'Distribution',
+        'width': 400,
+        'height': 300
+    };
+    // Instantiate and draw our chart, passing in some options.
+    var chart = new google.visualization.PieChart(document.getElementById('chart_div2'));
+    chart.draw(data, options);
+          }
+</script>
 
-    {% endblock %}
+<div id="chart_div2"></div>
+
+<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+    <tr>
+        <th class="mdl-data-table__cell--non-numeric">Date</th>
+        <th class="mdl-data-table__cell--non-numeric">Type</th>
+        <th class="mdl-data-table__cell--numeric">Weight</th>
+        <th>Sets</th>
+        <th>Reps</th>
+        <th>Total</th>
+    </tr>
+    {% for x in userLogs %}
+    <tr>
+        <td class="mdl-data-table__cell--non-numeric">{{ x.date_completed }}</td>
+        <td class="mdl-data-table__cell--non-numeric">{{ x.workout_title }}</td>
+        <td>{{ x.weight }}</td>
+        <td>{{ x.sets }}</td>
+        <td>{{ x.reps }}</td>
+        <td>{{ x.total }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+{% endblock %}

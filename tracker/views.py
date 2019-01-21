@@ -18,7 +18,7 @@ def user_logs(request, user_id):
     user = userLogs.values('user__username').first()
     todaySet = Entry.objects.filter(user_id=user_id, date_completed__gte=datetime.date.today())
     todayTotal = todaySet.values('workout_title__workout_title').annotate(total = (Sum(F('reps') * F('sets'))))
-    allTotal = Entry.objects.filter(user_id=user_id).values('workout_title__workout_title').annotate(total = (Sum(F('reps') * F('sets'))))
+    allTotal = Entry.objects.filter(user_id=user_id).values('workout_title__workout_title').annotate(total = (Sum(F('reps') * F('sets')))).order_by('-total')
     prof = Profile.objects.get(user_id=user_id)
 
     return render(request, 'tracker/user_logs.html',
@@ -120,7 +120,7 @@ def comp_entry(request, compName_id):
         workout_title_id__in=workoutID
     )
 
-    progSetSum = progSet.values('user__username', 'workout_title__workout_title').annotate(total = Sum(F('sets') * F('reps'))).order_by('total')
+    progSetSum = progSet.values('user__username', 'workout_title__workout_title').annotate(total = Sum(F('sets') * F('reps'))).order_by('-total','user__username')
 
     return render(request, 'tracker/comp_entry.html', {
         'compEntries' : compEntries,
