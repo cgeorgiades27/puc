@@ -9,56 +9,64 @@ from django.db.models import Count, Sum, F, IntegerField, Min, Q
 from .forms import EntryForm, ProfileForm, NewWorkout
 import gviz_api
 
+
 def log_detail(request, pk):
     log = get_object_or_404(Entry, pk=pk)
     return render(request, 'tracker/log_detail.html', {'log': log})
+
 
 def user_logs(request, user_id):
     userLogs = Entry.objects.filter(user_id=user_id).order_by('-date_completed')
     user = userLogs.values('user__username').first()
     todaySet = Entry.objects.filter(user_id=user_id, date_completed__gte=datetime.date.today())
-    todayTotal = todaySet.values('workout_title__workout_title').annotate(total = (Sum(F('reps') * F('sets'))))
-    allTotal = Entry.objects.filter(user_id=user_id).values('workout_title__workout_title').annotate(total = (Sum(F('reps') * F('sets')))).order_by('-total')
+    todayTotal = todaySet.values('workout_title__workout_title').annotate(total=(Sum(F('reps') * F('sets'))))
+    allTotal = Entry.objects.filter(user_id=user_id).values('workout_title__workout_title').annotate(
+        total=(Sum(F('reps') * F('sets')))).order_by('-total')
     prof = Profile.objects.get(user_id=user_id)
 
     return render(request, 'tracker/user_logs.html',
-    {
-        'userLogs': userLogs,
-        'user': user,
-        'todayTotal' : todayTotal,
-        'allTotal' : allTotal,
-        'prof': prof,
-    })
+                  {
+                      'userLogs': userLogs,
+                      'user': user,
+                      'todayTotal': todayTotal,
+                      'allTotal': allTotal,
+                      'prof': prof,
+                  })
+
 
 def workout_by_type(request, user_id, workout_title):
     type_logs = Entry.objects.filter(user_id=user_id, workout_title=workout_title)
-    return render(request, 'tracker/type_logs.html', { 'type_logs' : type_logs})
+    return render(request, 'tracker/type_logs.html', {'type_logs': type_logs})
+
 
 def competition(request):
     entry = Entry.objects.all()
     startDate = date(2018, 11, 27)
     endDate = date(2019, 1, 1)
     setRange = Entry.objects.filter(date_completed__gte=startDate, date_completed__lt=endDate)
-    totalPushUps = setRange.values('user__username').annotate(total = (Sum(F('reps') * F('sets')))).order_by('-total')
+    totalPushUps = setRange.values('user__username').annotate(total=(Sum(F('reps') * F('sets')))).order_by('-total')
     leader = totalPushUps.first()
     return render(request, 'tracker/competition.html', {
-        'totalPushUps' : totalPushUps,
-        'entry' : entry,
-        'leader' : leader,
+        'totalPushUps': totalPushUps,
+        'entry': entry,
+        'leader': leader,
     })
+
 
 def all_logs(request):
     logs = Entry.objects.all().order_by('-date_completed', 'user_id')
 
-    return render(request, 'tracker/all_logs.html', { 'logs' : logs })
+    return render(request, 'tracker/all_logs.html', {'logs': logs})
+
 
 def workout_log(request):
     logs = Entry.objects.all().order_by('-date_completed')[:50]
-    #prof = User.objects.annotate(tot=Sum(F('entry__reps') * F('entry__sets')))
+
+    # prof = User.objects.annotate(tot=Sum(F('entry__reps') * F('entry__sets')))
     def DateRange(n):
-        refDate = date.today() - timedelta(days = n)
-        dateSet = Entry.objects.filter(date_completed__gte = refDate)
-        return dateSet.values('user__username').annotate(total = Sum(F('reps') * F('sets'))).order_by('-total')
+        refDate = date.today() - timedelta(days=n)
+        dateSet = Entry.objects.filter(date_completed__gte=refDate)
+        return dateSet.values('user__username').annotate(total=Sum(F('reps') * F('sets'))).order_by('-total')
 
     group10k = DateRange(10000)
 
@@ -66,9 +74,10 @@ def workout_log(request):
                   {
                       'group10k': group10k,
                       'logs': logs,
-                      #'prof': prof,
+                      # 'prof': prof,
                   }
                   )
+
 
 def log_new(request):
     if request.method == "POST":
@@ -86,6 +95,7 @@ def log_new(request):
         form = EntryForm()
     return render(request, 'tracker/log_new.html', {'form': form})
 
+
 def new_workout(request):
     if request.method == "POST":
         form = NewWorkout(request.POST)
@@ -97,14 +107,14 @@ def new_workout(request):
             return redirect('new_workout')
     else:
         form = NewWorkout()
-    return render(request, 'tracker/new_workout.html', {'form' : form})
-    
+    return render(request, 'tracker/new_workout.html', {'form': form})
 
 
 def competition_list(request):
     competitions = Competition.objects.all().order_by('-endDate')
     today = date.today()
-    return render(request, 'tracker/competition_list.html', { 'competitions' : competitions, 'today' : today } )
+    return render(request, 'tracker/competition_list.html', {'competitions': competitions, 'today': today})
+
 
 def comp_entry(request, compName_id):
     compEntries = CompEntry.objects.filter(compName_id=compName_id)
@@ -120,41 +130,45 @@ def comp_entry(request, compName_id):
         workout_title_id__in=workoutID
     )
 
-    progSetSum = progSet.values('user__username', 'workout_title__workout_title').annotate(total = Sum(F('sets') * F('reps'))).order_by('-total','user__username')
+    progSetSum = progSet.values('user__username', 'workout_title__workout_title').annotate(
+        total=Sum(F('sets') * F('reps'))).order_by('-total', 'user__username')
 
     return render(request, 'tracker/comp_entry.html', {
-        'compEntries' : compEntries,
-        'compName' : compName,
-        'startDate' : startDate,
-        'endDate' : endDate,
-        'progSetSum' : progSetSum,
-        'sDate' : sDate,
-        }
-        )
+        'compEntries': compEntries,
+        'compName': compName,
+        'startDate': startDate,
+        'endDate': endDate,
+        'progSetSum': progSetSum,
+        'sDate': sDate,
+    }
+                  )
+
 
 def profile(request):
     if request.user.is_authenticated:
         profile = request.user.profile
         u = profile.user
-        qs = Profile.objects.filter(user = u)
+        qs = Profile.objects.filter(user=u)
         if qs.exists():
             compEntries = CompEntry.objects.all()
             comp = Competition.objects.all()
 
             progSet = Entry.objects.all()
-            progSetSum = progSet.values('user__username', 'workout_title__workout_title').annotate(total = Sum(F('sets') * F('reps')))
+            progSetSum = progSet.values('user__username', 'workout_title__workout_title').annotate(
+                total=Sum(F('sets') * F('reps')))
 
             return render(request, 'tracker/profile.html', {
                 'profile': profile,
-                'compEntries' : compEntries,
-                'comp' : comp,
-                'progSetSum' : progSetSum,
-                }
-                )
+                'compEntries': compEntries,
+                'comp': comp,
+                'progSetSum': progSetSum,
+            }
+                          )
         else:
             return redirect('update_profile')
     else:
         return redirect('login')
+
 
 def update_profile(request):
     if request.method == 'POST':
