@@ -7,7 +7,6 @@ from .models import Entry, Workouts, Competition, CompEntry, Profile
 from django.contrib.auth.models import User
 from django.db.models import Count, Sum, F, IntegerField, Min, Q
 from .forms import EntryForm, ProfileForm, NewWorkout
-import gviz_api
 
 
 def log_detail(request, pk):
@@ -117,7 +116,7 @@ def competition_list(request):
 
 
 def comp_entry(request, compName_id):
-    compEntries = CompEntry.objects.filter(compName_id=compName_id)
+    compEntries = CompEntry.objects.filter(compName_id=compName_id).order_by('workout_title__workout_title')
     compName = compEntries.values('compName__compName').first()
     sDate = Competition.objects.filter(id=compName_id)
     startDate = Competition.objects.filter(id=compName_id).values('startDate')
