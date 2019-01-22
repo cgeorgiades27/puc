@@ -1,10 +1,10 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponseRedirect
+#from django.http import HttpResponseRedirect
 from django.utils import timezone
 import datetime
 from datetime import date, timedelta
 from .models import Entry, Workouts, Competition, CompEntry, Profile
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
 from django.db.models import Count, Sum, F, IntegerField, Min, Q
 from .forms import EntryForm, ProfileForm, NewWorkout
 

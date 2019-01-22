@@ -8,34 +8,36 @@
 <h5><strong>Start Date: </strong>{{ x.startDate }}</h5>
 <h5><strong>End Date: </strong>{{ x.endDate }}</h5>
 {% endfor %}
-
 <br>
 <p>The following are <strong>REQUIRED</strong> to complete {{ compName.compName__compName }}</p>
-<div>
-    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-        <tr>
-            <th class="mdl-data-table__cell--non-numeric">Workout</th>
-            <th>Total Reps</th>
-        </tr>
-        {% for x in compEntries %}
-        <tr>
-            <td class="mdl-data-table__cell--non-numeric">{{ x.workout_title }}</td>
-            <td>{{ x.totalReps }}</td>
-        </tr>
+
+<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+    <tr>
+        <th class="mdl-data-table__cell--non-numeric">Workout</th>
+        <th>Total Reps</th>
+    </tr>
+    {% for x in compEntries %}
+    <tr>
+        <td class="mdl-data-table__cell--non-numeric">{{ x.workout_title }}</td>
+        <td>{{ x.totalReps }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<h4>Progress:</h4>
+
+<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+    <tr>
+        <th class="mdl-data-table__cell--non-numeric">User</th>
+        <th class="mdl-data-table__cell--non-numeric">Workout</th>
+        <th>Total</th>
+    </tr>
+    {% for x in progSetSum %}
+    <tr>
+        <td class="mdl-data-table__cell--non-numeric">{{ x.user__username }}</td>
+        <td class="mdl-data-table__cell--non-numeric">{{ x.workout_title__workout_title }}</td>
+        <td>{{ x.total }}</td>
         {% endfor %}
-    </table>
-    <h4>Progress:</h4>
-    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-        <tr>
-            <th class="mdl-data-table__cell--non-numeric">User</th>
-            <th class="mdl-data-table__cell--non-numeric">Workout</th>
-            <th>Total</th>
-        </tr>
-        {% for x in progSetSum %}
-        <tr>
-            <td class="mdl-data-table__cell--non-numeric">{{ x.user__username }}</td>
-            <td class="mdl-data-table__cell--non-numeric">{{ x.workout_title__workout_title }}</td>
-            <td>{{ x.total }}</td>
-        {% endfor %}
-    {% endblock %}
-</div>
+        {% endblock %}
+    </tr>
+</table>
