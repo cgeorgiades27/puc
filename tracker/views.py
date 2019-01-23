@@ -16,6 +16,7 @@ def log_detail(request, pk):
 
 def user_logs(request, user_id):
     userLogs = Entry.objects.filter(user_id=user_id).order_by('-date_completed')
+    userLogs50 = Entry.objects.filter(user_id=user_id).order_by('-date_completed')[:50]
     user = userLogs.values('user__username').first()
     todaySet = Entry.objects.filter(user_id=user_id, date_completed__gte=datetime.date.today())
     todayTotal = todaySet.values('workout_title__workout_title').annotate(total=(Sum(F('reps') * F('sets'))))
@@ -25,13 +26,19 @@ def user_logs(request, user_id):
 
     return render(request, 'tracker/user_logs.html',
                   {
-                      'userLogs': userLogs,
+                      'userLogs' : userLogs,
+                      'userLogs50' : userLogs50,
                       'user': user,
-                      'todayTotal': todayTotal,
+                      'todayTotal' : todayTotal,
                       'allTotal': allTotal,
                       'prof': prof,
                   })
 
+
+def all_user_logs(request, user_id):
+    userLogs = Entry.objects.filter(user_id=user_id).order_by('-date_completed')
+
+    return render(request, 'tracker/all_user_logs.html', {'userLogs': userLogs})
 
 def workout_by_type(request, user_id, workout_title):
     type_logs = Entry.objects.filter(user_id=user_id, workout_title=workout_title)

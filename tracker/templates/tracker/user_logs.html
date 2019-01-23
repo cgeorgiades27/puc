@@ -1,7 +1,7 @@
 {% extends 'tracker/base.html' %}
 {% block content %}
-
-<p><strong>Today's Totals:</strong></p>
+<br>
+<h4><strong>Logs for: {{ user.user__username }}</strong></h4>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
@@ -19,19 +19,18 @@
         {% endfor %}
 
     var options = {
-        'title': 'Distribution',
-        'width': 400,
-        'height': 300
-    };
-    // Instantiate and draw our chart, passing in some options.
+        title: 'Totals for Today:',
+        width: 700,
+        height: 500,
+        pieHole: 0.4
+     };
+
     var chart = new google.visualization.PieChart(document.getElementById('chart_div1'));
     chart.draw(data, options);
           }
 </script>
 
 <div id="chart_div1"></div>
-
-<p><strong>All Records:</strong></p>
 
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
@@ -49,10 +48,12 @@
         {% endfor %}
 
     var options = {
-        'title': 'Distribution',
-        'width': 400,
-        'height': 300
+        title: 'All Totals:',
+        width: 700,
+        height: 500,
+        pieHole: 0.4
     };
+
     var chart = new google.visualization.PieChart(document.getElementById('chart_div2'));
     chart.draw(data, options);
           }
@@ -60,6 +61,7 @@
 
 <div id="chart_div2"></div>
 
+<h5><strong>All Records:</strong></h5>
 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
     <tr>
         <th class="mdl-data-table__cell--non-numeric">Date</th>
@@ -67,9 +69,10 @@
         <th class="mdl-data-table__cell--numeric">Weight</th>
         <th>Sets</th>
         <th>Reps</th>
-        <th>Total</th>
+        <th>Total Reps</th>
+        <th>Total Weight</th>
     </tr>
-    {% for x in userLogs %}
+    {% for x in userLogs50 %}
     <tr>
         <td class="mdl-data-table__cell--non-numeric">{{ x.date_completed }}</td>
         <td class="mdl-data-table__cell--non-numeric">{{ x.workout_title }}</td>
@@ -77,9 +80,9 @@
         <td>{{ x.sets }}</td>
         <td>{{ x.reps }}</td>
         <td>{{ x.total }}</td>
+        <td>{{ x.totalWeight }}</td>
     </tr>
     {% endfor %}
 </table>
-
 
 {% endblock %}
