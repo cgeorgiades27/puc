@@ -26,10 +26,10 @@ def user_logs(request, user_id):
 
     return render(request, 'tracker/user_logs.html',
                   {
-                      'userLogs' : userLogs,
-                      'userLogs50' : userLogs50,
+                      'userLogs': userLogs,
+                      'userLogs50': userLogs50,
                       'user': user,
-                      'todayTotal' : todayTotal,
+                      'todayTotal': todayTotal,
                       'allTotal': allTotal,
                       'prof': prof,
                   })
@@ -37,8 +37,9 @@ def user_logs(request, user_id):
 
 def all_user_logs(request, user_id):
     userLogs = Entry.objects.filter(user_id=user_id).order_by('-date_completed')
+    user = userLogs.values('user__username').first()
 
-    return render(request, 'tracker/all_user_logs.html', {'userLogs': userLogs})
+    return render(request, 'tracker/all_user_logs.html', {'userLogs': userLogs, 'user': user})
 
 def workout_by_type(request, user_id, workout_title):
     type_logs = Entry.objects.filter(user_id=user_id, workout_title=workout_title)
