@@ -1,5 +1,8 @@
 {% extends 'tracker/user_logs.html' %}
 {% block content %}
+{% load static %}
+{% load pinax_badges_tags %}
+{% badges_for_user user as badges %}
 <style>
     .mdl-card {}
 
@@ -17,7 +20,7 @@
     }
 </style>
 <br>
-<h4>My Profile</h4>
+<h4>   My Profile</h4>
 <div class="mdl-grid">
     <div class="mdl-cell--3-col">
         <div class="mdl-card mdl-shadow--4dp">
@@ -34,6 +37,13 @@
                 <a href="{% url 'update_profile' %}">update profile</a>
             </div>
         </div>
+    </div>
+    <div class="mdl-cell--3-col">
+        {% for x in badges %}
+            <div>
+                <p><img src="/static/tracker/{{ x.level }}.png" alt="{{ x.name }}">{{ x.name }}</p>
+            </div>
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

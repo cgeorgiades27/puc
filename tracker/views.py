@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from django.db.models import Count, Sum, F, IntegerField, Min, Q
 from .forms import EntryForm, ProfileForm, NewWorkout
 import gviz_api
+from pinax.badges.registry import badges
 
 def log_detail(request, pk):
     log = get_object_or_404(Entry, pk=pk)
@@ -79,6 +80,7 @@ def log_new(request):
                 entry.date_entered = timezone.now()
                 entry.user = request.user
                 entry.save()
+                badges.possibly_award_badge("log_new", user=request.user)
                 return redirect('log_detail', pk=entry.id)
             else:
                 return redirect('login')
@@ -98,7 +100,7 @@ def new_workout(request):
     else:
         form = NewWorkout()
     return render(request, 'tracker/new_workout.html', {'form' : form})
-    
+
 
 
 def competition_list(request):
@@ -138,17 +140,8 @@ def profile(request):
         u = profile.user
         qs = Profile.objects.filter(user = u)
         if qs.exists():
-            compEntries = CompEntry.objects.all()
-            comp = Competition.objects.all()
-
-            progSet = Entry.objects.all()
-            progSetSum = progSet.values('user__username', 'workout_title__workout_title').annotate(total = Sum(F('sets') * F('reps')))
-
             return render(request, 'tracker/profile.html', {
                 'profile': profile,
-                'compEntries' : compEntries,
-                'comp' : comp,
-                'progSetSum' : progSetSum,
                 }
                 )
         else:

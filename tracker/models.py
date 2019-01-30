@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Count, Sum, F
 from django.utils import timezone
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -6,6 +7,8 @@ from django.core.validators import MaxValueValidator
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from datetime import date
+from pinax.badges.base import Badge, BadgeAwarded
+from pinax.badges.registry import badges
 
 class Workouts(models.Model):
     workout_title = models.CharField(max_length = 50)
@@ -49,7 +52,7 @@ class Competition(models.Model):
         return self.endDate
 
     def over(self):
-        return date.today() > self.endDate.date()    
+        return date.today() > self.endDate.date()
 
 class CompEntry(models.Model):
     compName = models.ForeignKey(Competition, related_name = 'competition', on_delete=models.CASCADE)
@@ -86,3 +89,30 @@ class Entry(models.Model):
 
     def __str__(self):
         return "Entry: " +  str(self.id) + " - " + str(self.user) + "date: " + str(self.date_completed)
+
+class PushUpsBadge(Badge):
+        slug = "pushups"
+        levels = [
+            "Bird Chest",
+            "Drill Instructor",
+            "Pecs of Steel",
+        ]
+        events = [
+            "log_new",
+        ]
+        multiple = False
+
+        def award(self, **state):
+            user = state["user"]
+            pushups = Entry.objects.filter(user_id=user).filter(workout_title=2).annotate(total = (Sum(F('reps') * F('sets'))))
+            pTotal = 0
+            for x in pushups:
+                pTotal = pTotal + x.total
+            if pTotal > 10000:
+                return BadgeAwarded(level=3)
+            elif pTotal > 5000:
+                return BadgeAwarded(level=2)
+            elif pTotal > 500:
+                return BadgeAwarded(level=1)
+
+badges.register(PushUpsBadge)
