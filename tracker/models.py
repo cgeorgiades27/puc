@@ -66,6 +66,23 @@ class CompEntry(models.Model):
     def __str__(self):
         return str(self.compName) + " " + "entry: " + str(self.id)
 
+class Exercise(models.Model):
+    creator = models.ForeignKey(User, related_name='exercise', on_delete=models.CASCADE)
+    workout = models.ForeignKey(Workouts, related_name='woe', on_delete=models.CASCADE, verbose_name='exercise type')
+    treps = models.PositiveIntegerField(validators=[MaxValueValidator(99999)], verbose_name='target reps')
+    tsets = models.PositiveIntegerField(validators=[MaxValueValidator(9999)], verbose_name='target sets')
+    tweight = models.IntegerField(blank=True, null=True, validators=[MaxValueValidator(9999)], verbose_name='target weight')
+
+    def __str__(self):
+        return self.workout.workout_title + ": " + str(self.tsets) + "/" + str(self.treps) + " " + str(self.tweight) + " lbs"
+
+class Routine(models.Model):
+    creator = models.ForeignKey(User, related_name='routine', on_delete=models.CASCADE)
+    name = models.CharField(max_length=50, verbose_name='routine name')
+    exercise = models.ManyToManyField(Exercise, related_name='ex', verbose_name='add exercises')
+
+    def __str__(self):
+        return self.creator.username + ": " + self.name
 
 class Entry(models.Model):
     user = models.ForeignKey(User, related_name='entry', on_delete=models.CASCADE)
@@ -75,6 +92,7 @@ class Entry(models.Model):
     date_entered = models.DateTimeField(default=timezone.now)
     date_completed = models.DateTimeField(blank=True, null=True, default=timezone.now)
     workout_title = models.ForeignKey(Workouts, related_name='workouts', on_delete=models.CASCADE, null=True)
+    routName = models.ForeignKey(Routine, blank=True, null=True, related_name='rout', on_delete=models.CASCADE)
 
     def publish(self):
         self.date_entered = timezone.now()

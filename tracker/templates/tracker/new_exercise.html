@@ -1,0 +1,29 @@
+{% extends 'tracker/base.html' %}
+{% block content %}
+<br>
+<h4><strong>Add New Exercises</strong></h4>
+<p>Add new exercise type <a href="{% url 'new_workout' %}">here</a>.</p>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit">Add Another</button>
+    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit" formaction="{% url 'exercise_next' %}">Save and Back to Routine</button>
+</form>
+<p>Note: Only enter new exercises. All of your saved exercises are listed below <i class="material-icons">tag_faces</i> </p>
+<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+    <tr>
+        <th class ="mdl-data-table__cell--non-numeric">Exercise</th>
+        <th>Sets</th>
+        <th>Reps</th>
+        <th>Weight</th>
+    </tr>
+    {% for x in myexer %}
+    <tr>
+        <td class ="mdl-data-table__cell--non-numeric">{{ x.workout }}</td>
+        <td>{{ x.tsets }}</td>
+        <td>{{ x.treps }}</td>
+        <td>{{ x.tweight }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

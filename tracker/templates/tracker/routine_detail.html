@@ -1,0 +1,21 @@
+{% extends 'tracker/base.html' %}
+{% block content %}
+<br>
+<h4>{{ log.name }} by {{log.creator}}</h4>
+<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+    <tr>
+        <th class ="mdl-data-table__cell--non-numeric">Exercise</th>
+        <th>Sets</th>
+        <th>Reps</th>
+        <th>Weight</th>
+    </tr>
+    {% for x in log.exercise.all %}
+    <tr>
+        <td class ="mdl-data-table__cell--non-numeric">{{ x.workout }}</td>
+        <td>{{ x.tsets }}</td>
+        <td>{{ x.treps }}</td>
+        <td>{{ x.tweight }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

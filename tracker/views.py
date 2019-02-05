@@ -3,10 +3,10 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 import datetime
 from datetime import date, timedelta
-from .models import Entry, Workouts, Competition, CompEntry, Profile
+from .models import Entry, Workouts, Competition, CompEntry, Profile, Routine, Exercise
 #from django.contrib.auth.models import User
 from django.db.models import Count, Sum, F, IntegerField, Min, Q
-from .forms import EntryForm, ProfileForm, NewWorkout
+from .forms import EntryForm, ProfileForm, NewWorkout, NewRoutine, NewExercise
 
 
 def log_detail(request, pk):
@@ -69,7 +69,6 @@ def all_logs(request):
 def workout_log(request):
     logs = Entry.objects.all().order_by('-date_completed')[:50]
 
-    # prof = User.objects.annotate(tot=Sum(F('entry__reps') * F('entry__sets')))
     def DateRange(n):
         refDate = date.today() - timedelta(days=n)
         dateSet = Entry.objects.filter(date_completed__gte=refDate)
@@ -81,7 +80,6 @@ def workout_log(request):
                   {
                       'group10k': group10k,
                       'logs': logs,
-                      # 'prof': prof,
                   }
                   )
 
@@ -188,3 +186,63 @@ def update_profile(request):
     return render(request, 'tracker/update_profile.html', {
         'profile_form': profile_form
     })
+
+def new_exercise(request):
+    if request.user.is_authenticated:
+        u = request.user
+        myexer = Exercise.objects.filter(creator=u).order_by('workout')
+        if request.method == "POST":
+            form = NewExercise(request.POST)
+            if form.is_valid():
+                entry = form.save(commit=False)
+                entry.creator = request.user
+                entry.save()
+                return redirect('new_exercise')
+            else:
+                return redirect('new_exercise')
+        else:
+            form = NewExercise()
+            return render(request, 'tracker/new_exercise.html', {
+                'form': form,
+                'myexer': myexer,
+                })
+    else:
+        return redirect('login')
+
+def exercise_next(request):
+    if request.method == "POST":
+        form = NewExercise(request.POST)
+        if form.is_valid():
+            entry = form.save(commit=False)
+            entry.creator = request.user
+            entry.save()
+            return redirect('new_routine')
+        else:
+            return redirect('new_exercise')
+    else:
+        form = NewExercise()
+        return render(request, 'tracker/new_exercise.html', {'form': form})
+
+def new_routine(request):
+    if request.user.is_authenticated:
+        u = request.user
+        if request.method == "POST":
+            form = NewRoutine(request.user, request.POST)
+            if form.is_valid():
+                    entry = form.save(commit=False)
+                    entry.creator = u
+                    entry.save()
+                    form.save_m2m()
+                    return redirect('routine_detail', rout=entry.id)
+            else:
+                return redirect('new_exercise')
+
+        else:
+            form = NewRoutine(request.user)
+            return render(request, 'tracker/new_routine.html', {'form': form})
+    else:
+        return redirect('login')
+
+def routine_detail(request, rout):
+    log = get_object_or_404(Routine, id=rout)
+    return render(request, 'tracker/routine_detail.html', {'log': log})

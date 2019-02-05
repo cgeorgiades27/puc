@@ -6,7 +6,11 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('', views.workout_log, name = 'workout_log'),
     path('log/<int:pk>', views.log_detail, name = 'log_detail'),
+    path('routine/<int:rout>', views.routine_detail, name = 'routine_detail'),
     path('log/new/', views.log_new, name = 'log_new'),
+    path('new_routine', views.new_routine, name = 'new_routine'),
+    path('new_exercise', views.new_exercise, name = 'new_exercise'),
+    path('exercise_next', views.exercise_next, name = 'exercise_next'),
     path('user_id/<int:user_id>', views.user_logs, name = 'user_logs'),
     path('competition', views.competition, name = 'competition'),
     path('competition_list', views.competition_list, name = 'competition_list'),
