@@ -4,7 +4,8 @@ from django.utils import timezone
 import datetime
 from datetime import date, timedelta
 from .models import Entry, Workouts, Competition, CompEntry, Profile
-#from django.contrib.auth.models import User
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Count, Sum, F, IntegerField, Min, Q
 from .forms import EntryForm, ProfileForm, NewWorkout
 
@@ -188,3 +189,18 @@ def update_profile(request):
     return render(request, 'tracker/update_profile.html', {
         'profile_form': profile_form
     })
+
+
+def signup(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            rawPassword = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=rawPassword)
+            login(request, user)
+            return redirect('profile')
+    else:
+        form = UserCreationForm()
+    return render(request, 'tracker/signup.html', {'form': form})

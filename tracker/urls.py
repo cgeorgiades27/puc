@@ -18,5 +18,6 @@ urlpatterns = [
     path('all_logs', views.all_logs, name = 'all_logs'),
     path('new_workout', views.new_workout, name = 'new_workout'),
     path('user_logs-all/<int:user_id>', views.all_user_logs, name = 'all_user_logs'),
+    path('signup', views.signup, name = 'signup'),
     #path('url/new/', views.user_settings, name = 'user_settings'),
 ]

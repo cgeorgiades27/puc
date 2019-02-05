@@ -4,12 +4,12 @@
     .mdl-card {}
 
     .mdl-card>.mdl-card__title {
-        color: #fff;
+        color: #ffff;
         background: url("{{ user.profile.banner_url }}") center / cover;
     }
 
     .mdl-card>.mdl-card__media>.avatar {
-        width: 94%;
+        width: 90%;
         padding: 10px;
         margin-left: auto;
         margin-right: auto;
@@ -17,10 +17,8 @@
     }
 </style>
 <br>
-<h4>My Profile</h4>
 <div class="mdl-grid">
-    <div class="mdl-cell--3-col">
-        <div class="mdl-card mdl-shadow--4dp">
+        <div class="mdl-card mdl-shadow--4dp" style="width: 15%;">
             <div class="mdl-card__title">
                 <h2 class="mdl-card__title-text">{{ user.username }}</h2>
             </div>
@@ -34,6 +32,9 @@
                 <a href="{% url 'update_profile' %}">update profile</a>
             </div>
         </div>
-    </div>
 </div>
+
+
+
+
 {% endblock %}
