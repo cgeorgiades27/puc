@@ -33,6 +33,7 @@ def user_logs(request, user_id):
                       'todayTotal': todayTotal,
                       'allTotal': allTotal,
                       'prof': prof,
+                      'user_id': user_id,
                   })
 
 
