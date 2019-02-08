@@ -8,6 +8,11 @@
 <h5><strong>Start Date: </strong>{{ x.startDate }}</h5>
 <h5><strong>End Date: </strong>{{ x.endDate }}</h5>
 {% endfor %}
+
+<strong>Members:</strong> (add new <a href="{% url 'join_comp' compName_id=compName_id %}">here</a>)
+{% for x in memberNames %}
+<li>{{ x.user__username }}</li>
+{% endfor %}
 <br>
 <p>The following are <strong>REQUIRED</strong> to complete {{ compName.compName__compName }}</p>
 

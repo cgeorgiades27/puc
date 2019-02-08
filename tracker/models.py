@@ -67,6 +67,14 @@ class CompEntry(models.Model):
         return str(self.compName) + " " + "entry: " + str(self.id)
 
 
+class CompMember(models.Model):
+    user = models.ForeignKey(User, related_name='compmember', on_delete=models.CASCADE)
+    compName = models.ForeignKey(Competition, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.compName) + ": " + str(self.user)
+
+
 class Entry(models.Model):
     user = models.ForeignKey(User, related_name='entry', on_delete=models.CASCADE)
     reps = models.PositiveIntegerField(validators=[MaxValueValidator(99999)])

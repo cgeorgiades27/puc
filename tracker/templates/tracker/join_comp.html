@@ -1,0 +1,10 @@
+{% extends 'tracker/base.html' %}
+{% block content %}
+<br>
+<h4><strong>Add new user:</strong></h4>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" type="submit">Join</button>
+</form>
+{% endblock %}

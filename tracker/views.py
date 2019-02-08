@@ -3,11 +3,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 import datetime
 from datetime import date, timedelta
-from .models import Entry, Workouts, Competition, CompEntry, Profile
+from .models import Entry, Workouts, Competition, CompEntry, Profile, CompMember
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Count, Sum, F, IntegerField, Min, Q
-from .forms import EntryForm, ProfileForm, NewWorkout
+from .forms import EntryForm, ProfileForm, NewWorkout, JoinComp
 
 
 def log_detail(request, pk):
@@ -97,7 +97,7 @@ def log_new(request):
                 entry.date_entered = timezone.now()
                 entry.user = request.user
                 entry.save()
-                return redirect('log_detail', pk=entry.id)
+                return redirect('log_new')
             else:
                 return redirect('login')
     else:
@@ -132,11 +132,14 @@ def comp_entry(request, compName_id):
     startDate = Competition.objects.filter(id=compName_id).values('startDate')
     endDate = Competition.objects.filter(id=compName_id).values('endDate')
     workoutID = CompEntry.objects.filter(compName_id=compName_id).values('workout_title_id')
+    members = CompMember.objects.filter(compName_id=compName_id).values('user')
+    memberNames = CompMember.objects.filter(compName_id=compName_id).values('user__username') 
 
     progSet = Entry.objects.filter(
         date_completed__gte=startDate,
         date_completed__lt=endDate,
-        workout_title_id__in=workoutID
+        workout_title_id__in=workoutID,
+        user_id__in=members,
     )
 
     progSetSum = progSet.values('user__username', 'workout_title__workout_title').annotate(
@@ -149,6 +152,9 @@ def comp_entry(request, compName_id):
         'endDate': endDate,
         'progSetSum': progSetSum,
         'sDate': sDate,
+        'members': members,
+        'memberNames': memberNames,
+        'compName_id': compName_id,
     }
                   )
 
@@ -205,3 +211,16 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'tracker/signup.html', {'form': form})
+
+
+def join_comp(request, compName_id):
+    if request.method == 'POST':
+        form = JoinComp(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('comp_entry', compName_id=compName_id)
+        else:
+            return redirect('competition_list')
+    else:
+        form = JoinComp()
+    return render(request, 'tracker/join_comp.html', {'form': form})
