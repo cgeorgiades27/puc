@@ -106,6 +106,7 @@ def log_new(request):
 
 
 def new_workout(request):
+    exerciseList = Workouts.objects.all().order_by('workout_title')
     if request.method == "POST":
         form = NewWorkout(request.POST)
         if form.is_valid():
@@ -116,7 +117,7 @@ def new_workout(request):
             return redirect('new_workout')
     else:
         form = NewWorkout()
-    return render(request, 'tracker/new_workout.html', {'form': form})
+    return render(request, 'tracker/new_workout.html', {'form': form, 'exerciseList': exerciseList})
 
 
 def competition_list(request):
