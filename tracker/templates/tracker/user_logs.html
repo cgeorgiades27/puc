@@ -15,8 +15,8 @@
         data.addColumn('number', 'Total');
 
         {% for x in todayTotal %}
-        data.addRows([['{{ x.workout_title__workout_title }}', {{ x.total }}]]);
-    {% endfor %}
+            data.addRows([['{{ x.workout_title__workout_title }}', {{ x.total }}]]);
+        {% endfor %}
 
     var options = {
         title: 'Totals for Today:',
@@ -83,7 +83,7 @@
 
     function drawTable() {
         var data = new google.visualization.DataTable();
-        //data.addColumn('date', 'Date');
+        data.addColumn('string', 'Date');
         data.addColumn('string', 'Type');
         data.addColumn('number', 'Weight');
         data.addColumn('number', 'Sets');
@@ -94,7 +94,7 @@
         
         data.addRows([
             [
-                //new Date({{ x.date_entered }}),
+                '{{ x.date_entered }}',
                 '{{ x.workout_title }}',
                 {{ x.totalWeight }},
                 {{ x.sets }},

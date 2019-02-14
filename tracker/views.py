@@ -168,8 +168,8 @@ def profile(request):
             compEntries = CompEntry.objects.all()
             comp = Competition.objects.all()
 
-            progSet = Entry.objects.all()
-            progSetSum = progSet.values('user__username', 'workout_title__workout_title').annotate(
+            progSet = Entry.objects.all().filter(user_id=u.pk)
+            progSetSum = progSet.values('workout_title__workout_title').annotate(
                 total=Sum(F('sets') * F('reps')))
 
             return render(request, 'tracker/profile.html', {
