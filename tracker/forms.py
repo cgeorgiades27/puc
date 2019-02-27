@@ -7,6 +7,10 @@ class EntryForm(forms.ModelForm):
         model = Entry
         fields = ('date_completed', 'workout_title', 'sets', 'reps', 'weight')
 
+    def __init__(self, *args, **kwargs):
+        super(EntryForm, self).__init__(*args, **kwargs)
+        self.fields['workout_title'] = forms.ModelChoiceField(queryset=Workouts.objects.order_by('workout_title'))
+
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
