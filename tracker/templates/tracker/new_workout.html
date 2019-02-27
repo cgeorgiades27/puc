@@ -13,10 +13,12 @@
 <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
     <tr>
         <th class="mdl-data-table__cell--non-numeric">Exercise Name</th>
+        <th class="mdl-data-table__cell--non-numeric">Link</th>
     </tr>
     {% for x in exerciseList %}
         <tr>
             <td class="mdl-data-table__cell--non-numeric">{{ x.workout_title }}</td>
+            <td class="mdl-data-table__cell--non-numeric"><a href = "{{ x.workout_url }}">Link</a></td>
         </tr>
     {% endfor %}    
 </table>
