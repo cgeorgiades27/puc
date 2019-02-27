@@ -161,6 +161,10 @@ def comp_entry(request, compName_id):
 
 
 def profile(request):
+
+    #user = request.user
+    #comps = CompEntry.objects.filter(user=user).order_by('endDate')    
+
     if request.user.is_authenticated:
         profile = request.user.profile
         u = profile.user
