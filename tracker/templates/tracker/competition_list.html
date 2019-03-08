@@ -9,17 +9,17 @@
             <th class="mdl-data-table__cell--non-numeric">Competition Name</th>
             <th class="mdl-data-table__cell--non-numeric">Start Date</th>
             <th class="mdl-data-table__cell--non-numeric">End Date</th>
-            <th class="mdl-data-table__cell--non-numeric">Status</th>
+            <th class="mdl-data-table__cell--non-numeric">Open</th>
         </tr>
         {% for x in competitions %}
         <tr>
             <td class="mdl-data-table__cell--non-numeric"><a href="{% url 'comp_entry' compName_id=x.pk %}">{{ x.compName }}</a></td>
             <td class="mdl-data-table__cell--non-numeric">{{ x.startDate }}</td>
             <td class="mdl-data-table__cell--non-numeric">{{ x.endDate }}</td>
-            {% if x.over %}
-                <td class="mdl-data-table__cell--non-numeric"><i class="material-icons" style="color: #DE1738;">clear</i></td>
+            {% if x.open %}
+                <td class="mdl-data-table__cell--non-numeric"><i class="fas fa-lock-open" style="color: #39FF14;"></i></td>
             {% else %}
-            <td class="mdl-data-table__cell--non-numeric"><i class="material-icons" style="color: #39FF14;">done</i></td>
+                <td class="mdl-data-table__cell--non-numeric"><i class="fas fa-lock" style="color: #DE1738;"></i></td>
             {% endif %}
         </tr>
         {% endfor %}

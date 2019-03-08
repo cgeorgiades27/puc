@@ -56,6 +56,9 @@ class Competition(models.Model):
 
     def over(self):
         return date.today() > self.endDate.date()
+    
+    def open(self):
+        return date.today() >= self.startDate.date() and date.today() < self.endDate.date()
 
 
 class CompEntry(models.Model):
@@ -101,4 +104,4 @@ class Entry(models.Model):
         return totalWeight
 
     def __str__(self):
-        return "Entry: " + str(self.id) + " - " + str(self.user) + "date: " + str(self.date_completed)
+        return "Entry: " + str(self.id) + " - " + str(self.user) + " Type: " + str(self.workout_title) + "date: " + str(self.date_completed)
