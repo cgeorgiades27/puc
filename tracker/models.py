@@ -9,7 +9,7 @@ from datetime import date
 
 
 class Workouts(models.Model):
-    workout_title = models.CharField(max_length=50)
+    workout_title = models.CharField(max_length=50, unique=True)
     workout_url = models.URLField(max_length=500, null=True, blank=True)
 
     def __str__(self):
