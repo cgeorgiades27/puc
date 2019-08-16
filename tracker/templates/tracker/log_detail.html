@@ -2,26 +2,30 @@
 {% block content %}
 <br>
 <h4>Log detail for entry: {{ log.id }}</h4>
-<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
-    <tr>
-        <th>ID</th>
-        <th class ="mdl-data-table__cell--non-numeric">User</th>
-        <th class ="mdl-data-table__cell--non-numeric">Date</th>
-        <th class ="mdl-data-table__cell--non-numeric">Workout Title</th>
-        <th>Sets</th>
-        <th>Reps</th>
-        <th>Total Reps</th>
-        <th>Total Weight</th>
-    </tr>
-    <tr>
-        <td>{{ log.id }}</td>
-        <td class ="mdl-data-table__cell--non-numeric"><a href="{% url 'user_logs' user_id=log.user_id %}">{{ log.user }}</a></td>
-        <td class ="mdl-data-table__cell--non-numeric">{{ log.date_completed }}</td>
-        <td class ="mdl-data-table__cell--non-numeric">{{ log.workout_title }}</td>
-        <td>{{ log.sets }}</td>
-        <td>{{ log.reps }}</td>
-        <td>{{ log.total }}</td>
-        <td>{{ log.totalWeight }}</td>
-    </tr>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Date</th>
+            <th>Workout Title</th>
+            <th>Sets</th>
+            <th>Reps</th>
+            <th>Total Reps</th>
+            <th>Total Weight</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ log.id }}</td>
+            <td><a href="{% url 'user_logs' user_id=log.user_id %}">{{ log.user }}</a></td>
+            <td>{{ log.date_completed }}</td>
+            <td>{{ log.workout_title }}</td>
+            <td>{{ log.sets }}</td>
+            <td>{{ log.reps }}</td>
+            <td>{{ log.total }}</td>
+            <td>{{ log.totalWeight }}</td>
+        </tr>
+    </tbody>
 </table>
 {% endblock %}

@@ -3,12 +3,12 @@
 <br>
 <h4><strong>All time recorded:</strong></h4>
 <div style="overflow-x:auto;">
-    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp" id="table3">
+    <table class="table">
         <tr>
-            <th>ID</th>
-            <th class="mdl-data-table__cell--non-numeric">Username</th>
-            <th class="mdl-data-table__cell--non-numeric">Date</th>
-            <th class="mdl-data-table__cell--non-numeric">Exercise</th>
+            <th scope="col">ID</th>
+            <th>Username</th>
+            <th>Date</th>
+            <th>Exercise</th>
             <th>Weight</th>
             <th>Sets</th>
             <th>Reps</th>
@@ -18,9 +18,9 @@
         {% for x in logs %}
         <tr>
             <td><a href="{% url 'log_detail' pk=x.pk %}">{{ x.id }}</a></td>
-            <td class="mdl-data-table__cell--non-numeric"><a href="{% url 'user_logs' user_id=x.user_id %}">{{ x.user }}</a></td>
-            <td class="mdl-data-table__cell--non-numeric">{{ x.date_completed }}</td>
-            <td class="mdl-data-table__cell--non-numeric">{{ x.workout_title }}</td>
+            <td><a href="{% url 'user_logs' user_id=x.user_id %}">{{ x.user }}</a></td>
+            <td>{{ x.date_completed }}</td>
+            <td>{{ x.workout_title }}</td>
             <td>{{ x.weight }}</td>
             <td>{{ x.sets }}</td>
             <td>{{ x.reps }}</td>
