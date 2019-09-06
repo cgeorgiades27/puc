@@ -20,6 +20,7 @@ urlpatterns = [
     path('user_logs-all/<int:user_id>',
          views.all_user_logs, name='all_user_logs'),
     path('signup', views.signup, name='signup'),
+    path('join_comp/<int:compName_id>', views.join_comp, name = 'join_comp'),
     path('login/',
          LoginView.as_view
          (

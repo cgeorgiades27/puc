@@ -4,22 +4,22 @@
 <h4><strong>Competitions:</strong></h4>
 <p>Current list of open competitions</p>
 <div>
-    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+    <table class="table">
         <tr>
-            <th class="mdl-data-table__cell--non-numeric">Competition Name</th>
-            <th class="mdl-data-table__cell--non-numeric">Start Date</th>
-            <th class="mdl-data-table__cell--non-numeric">End Date</th>
-            <th class="mdl-data-table__cell--non-numeric">Open</th>
+            <th>Competition Name</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Open</th>
         </tr>
         {% for x in competitions %}
         <tr>
-            <td class="mdl-data-table__cell--non-numeric"><a href="{% url 'comp_entry' compName_id=x.pk %}">{{ x.compName }}</a></td>
-            <td class="mdl-data-table__cell--non-numeric">{{ x.startDate }}</td>
-            <td class="mdl-data-table__cell--non-numeric">{{ x.endDate }}</td>
+            <td><a href="{% url 'comp_entry' compName_id=x.pk %}">{{ x.compName }}</a></td>
+            <td>{{ x.startDate }}</td>
+            <td>{{ x.endDate }}</td>
             {% if x.open %}
-                <td class="mdl-data-table__cell--non-numeric"><i class="fas fa-lock-open" style="color: #39FF14;"></i></td>
+                <td><i class="fas fa-lock-open" style="color: #39FF14;"></i></td>
             {% else %}
-                <td class="mdl-data-table__cell--non-numeric"><i class="fas fa-lock" style="color: #DE1738;"></i></td>
+                <td><i class="fas fa-lock" style="color: #DE1738;"></i></td>
             {% endif %}
         </tr>
         {% endfor %}

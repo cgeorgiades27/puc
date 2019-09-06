@@ -8,6 +8,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Count, Sum, F, IntegerField, Min, Q
 from .forms import EntryForm, ProfileForm, NewWorkout, JoinComp
+from django.contrib.auth.decorators import login_required
 
 
 def log_detail(request, pk):
@@ -36,18 +37,19 @@ def user_logs(request, user_id):
                       'user_id': user_id,
                   })
 
-
+@login_required
 def all_user_logs(request, user_id):
     userLogs = Entry.objects.filter(user_id=user_id).order_by('-date_completed')
     user = userLogs.values('user__username').first()
 
     return render(request, 'tracker/all_user_logs.html', {'userLogs': userLogs, 'user': user})
 
+@login_required
 def workout_by_type(request, user_id, workout_title):
     type_logs = Entry.objects.filter(user_id=user_id, workout_title=workout_title)
     return render(request, 'tracker/type_logs.html', {'type_logs': type_logs})
 
-
+@login_required
 def competition(request):
     entry = Entry.objects.all()
     startDate = date(2018, 11, 27)
@@ -61,13 +63,13 @@ def competition(request):
         'leader': leader,
     })
 
-
+@login_required
 def all_logs(request):
     logs = Entry.objects.all().order_by('-date_completed', 'user_id')
 
     return render(request, 'tracker/all_logs.html', {'logs': logs})
 
-
+@login_required
 def workout_log(request):
     logs = Entry.objects.all().order_by('-date_completed')[:50]
 
@@ -87,7 +89,7 @@ def workout_log(request):
                   }
                   )
 
-
+@login_required
 def log_new(request):
     if request.method == "POST":
         form = EntryForm(request.POST)
@@ -104,7 +106,7 @@ def log_new(request):
         form = EntryForm()
     return render(request, 'tracker/log_new.html', {'form': form})
 
-
+@login_required
 def new_workout(request):
     exerciseList = Workouts.objects.all().order_by('workout_title')
     if request.method == "POST":
@@ -161,7 +163,7 @@ def comp_entry(request, compName_id):
     }
                   )
 
-
+@login_required
 def profile(request):
 
     #user = request.user
@@ -191,7 +193,7 @@ def profile(request):
     else:
         return redirect('login')
 
-
+@login_required
 def update_profile(request):
     if request.method == 'POST':
         profile_form = ProfileForm(request.POST, instance=request.user.profile)
@@ -219,7 +221,7 @@ def signup(request):
         form = UserCreationForm()
     return render(request, 'tracker/signup.html', {'form': form})
 
-
+@login_required
 def join_comp(request, compName_id):
     if request.method == 'POST':
         form = JoinComp(request.POST)

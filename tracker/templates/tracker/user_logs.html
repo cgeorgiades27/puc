@@ -33,14 +33,14 @@
 <div id="chart_div1"></div>
 
 <h5><strong>Completed Today:</strong></h5>
-<table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+<table class="table">
     <tr>
-        <th class="mdl-data-table__cell--non-numeric">Type</th>
+        <th>Type</th>
         <th>Total Reps</th>
     </tr>
     {% for x in todayTotal %}
     <tr>
-        <td class="mdl-data-table__cell--non-numeric">{{ x.workout_title__workout_title }}</td>
+        <td>{{ x.workout_title__workout_title }}</td>
         <td>{{ x.total }}</td>
     </tr>
     {% endfor %}
@@ -79,10 +79,10 @@
 <p>See all <a href="{% url 'all_user_logs' user_id=user_id %}">here</a>.</p>
 
 <div style="overflow-x:auto;">
-    <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+    <table class="table">
       <tr>
-        <th class="mdl-data-table__cell--non-numeric">Date</th>
-        <th class="mdl-data-table__cell--non-numeric">Exercise</th>
+        <th>Date</th>
+        <th>Exercise</th>
         <th>Weight</th>
         <th>Sets</th>
         <th>Reps</th>
@@ -91,8 +91,8 @@
       </tr>
       {% for x in userLogs50 %}
       <tr>
-        <td class="mdl-data-table__cell--non-numeric">{{ x.date_completed }}</td>
-        <td class="mdl-data-table__cell--non-numeric">{{ x.workout_title }}</td>
+        <td>{{ x.date_completed }}</td>
+        <td>{{ x.workout_title }}</td>
         <td>{{ x.weight }}</td>
         <td>{{ x.sets }}</td>
         <td>{{ x.reps }}</td>
