@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }} - Set Tracker</title>
+    <title>{{ title }} PUC - Tracker</title>
     {% load staticfiles %}
     <link rel="stylesheet" type="text/css" href="{% static 'tracker/content/bootstrap.min.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'tracker/content/site.css' %}" />
@@ -19,12 +19,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="/" class="navbar-brand">PUC Rocks</a>
+                <a href="/" class="navbar-brand">Tracker</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="{% url 'workout_log' %}">Home</a></li>
-                    <li><a href="{% url 'log_new' %}">Log Set</a></li>
+                    <li><a href="{% url 'log_new' %}">Enter Set</a></li>
                     <li><a href="{% url 'competition_list' %}">Competitions</a></li>
                 </ul>
                 {% include 'tracker/loginpartial.html' %}
@@ -40,9 +40,9 @@
         </footer>
     </div>
 
-    <script src="{% static 'app/scripts/jquery-1.10.2.js' %}"></script>
-    <script src="{% static 'app/scripts/bootstrap.js' %}"></script>
-    <script src="{% static 'app/scripts/respond.js' %}"></script>
+    <script src="{% static 'tracker/scripts/jquery-1.10.2.js' %}"></script>
+    <script src="{% static 'tracker/scripts/bootstrap.js' %}"></script>
+    <script src="{% static 'tracker/scripts/respond.js' %}"></script>
 {% block scripts %}{% endblock %}
 
 </body>
